@@ -11,24 +11,36 @@
     "pack": "npx framer-plugin-tools@latest pack"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.59.0",
+    "axios": "^1.7.7",
+    "firebase": "^10.14.0",
     "framer-plugin": "^1",
     "react": "^18",
     "react-dom": "^18",
+    "react-hot-toast": "^2.4.1",
+    "react-icons": "^5.3.0",
+    "react-loader-spinner": "^6.1.6",
+    "react-router-dom": "^6.26.2",
+    "react-transition-group": "^4.4.5",
+    "sweetalert2": "^11.14.1",
     "vite-plugin-mkcert": "^1"
   },
   "devDependencies": {
     "@eslint/js": "^9",
-    "@types/react-dom": "^18",
     "@types/react": "^18",
-    "@vitejs/plugin-react-swc": "^3",
+    "@types/react-dom": "^18",
     "@vitejs/plugin-react": "^4.3.1",
+    "@vitejs/plugin-react-swc": "^3",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^9.9.0",
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",
     "eslint-plugin-react-refresh": "^0.4.9",
-    "typescript-eslint": "^8.0.1",
-    "vite-plugin-framer": "^1",
-    "eslint": "^9.9.0",
     "globals": "^15.9.0",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.13",
     "typescript": "^5.3",
-    "vite": "^5"
+    "typescript-eslint": "^8.0.1",
+    "vite": "^5",
+    "vite-plugin-framer": "^1"
   }
 }
