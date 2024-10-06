@@ -49,7 +49,7 @@ const UserAvatar = () => {
 
 
     return (
-        <div className="relative">
+        <div className="relative ">
             <div
                 role="button"
                 onClick={togglePopup}
@@ -63,7 +63,7 @@ const UserAvatar = () => {
 
             <div
                 ref={popupRef}
-                className={`absolute right-0 mt-2 w-64  shadow-lg p-5 rounded-md transition-opacity duration-200 ease-in-out ${isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+                className={`absolute z-50  right-0 mt-2 w-64  shadow-lg p-5 rounded-md transition-opacity duration-200 ease-in-out ${isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
                     }`}
                 style={{ transition: "opacity 200ms ease-in-out" }}
             >

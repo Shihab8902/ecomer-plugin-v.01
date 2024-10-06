@@ -3,6 +3,8 @@ import Root from "../layouts/Root";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Dashboard from "../pages/Dashboard";
+import PrivateRoute from "../hooks/PrivateRoute";
+import ManageStore from "../pages/ManageStore";
 
 export const router = createBrowserRouter([
     {
@@ -19,7 +21,15 @@ export const router = createBrowserRouter([
             },
             {
                 path: "/dashboard",
-                element: <Dashboard />
+                element: <PrivateRoute>
+                    <Dashboard />
+                </PrivateRoute>
+            },
+            {
+                path: "/store/manage",
+                element: <PrivateRoute>
+                    <ManageStore />
+                </PrivateRoute>
             }
         ]
     }
