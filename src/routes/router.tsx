@@ -5,6 +5,7 @@ import Login from "../pages/Login";
 import Dashboard from "../pages/Dashboard";
 import PrivateRoute from "../hooks/PrivateRoute";
 import ManageStore from "../pages/ManageStore";
+import OrderDetails from "../pages/OrderDetails";
 
 export const router = createBrowserRouter([
     {
@@ -29,6 +30,12 @@ export const router = createBrowserRouter([
                 path: "/store/manage",
                 element: <PrivateRoute>
                     <ManageStore />
+                </PrivateRoute>
+            },
+            {
+                path: "/order/details",
+                element: <PrivateRoute>
+                    <OrderDetails />
                 </PrivateRoute>
             }
         ]

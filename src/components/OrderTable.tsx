@@ -2,6 +2,8 @@ import { VscSettings } from "react-icons/vsc";
 import useOrderInfo from "../hooks/useOrderInfo";
 import UserAvatar from "./UserAvatar";
 import { useNavigate } from "react-router-dom";
+import LoaderSpinner from "./LoaderSpinner";
+import moment from 'moment';
 
 
 export const OrderTable = () => {
@@ -9,6 +11,15 @@ export const OrderTable = () => {
     const navigate = useNavigate();
 
     const { orders, refetchOrders, ordersLoading } = useOrderInfo();
+
+    const formatDate = (dateString: string) => {
+        if (dateString === "unknown") {
+            return "unknown";
+        }
+
+        const date = moment(dateString);
+        return date.format('Do MMMM YYYY');
+    };
 
 
     return <div>
@@ -39,7 +50,56 @@ export const OrderTable = () => {
         </div>
 
 
+        {/* Display order table */}
+        {
+            ordersLoading ? <LoaderSpinner shapeHeight="40" shapeWidth="40" shapeColor="#6E717D" /> : orders?.length < 1 ? <h3>No order data found!</h3> :
+                <div className="overflow-x-auto mt-10">
+                    <table className=" table text-center min-w-[600px]  border-collapse border-spacing-0 w-full ">
 
+                        <thead className="border-b text-sm ">
+                            <tr>
+                                <th>Sl.</th>
+                                <th>Order</th>
+                                <th>Date</th>
+                                <th>Fulfillment Status</th>
+                                <th>Payment Method</th>
+                                <th>Subtotal</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {
+                                orders?.map((order: object, index: number) => {
+                                    return <tr onClick={() => navigate("/order/details", { state: order })} key={order?._id} className="border-b py-3 hover:bg-[#F4F4FC] cursor-pointer">
+                                        <td className="text-[#6E717D] text-sm py-3">{index + 1}</td>
+                                        <td className="text-[#6E717D] text-sm py-3">{order.orderNumber}</td>
+                                        <td className="text-[#6E717D] text-sm py-3">{order.orderedAt}</td>
+
+                                        <td style={{ color: order.status.map(status => status.message)[order.status.length - 1] === "Order Received" ? "#28A745" : order.status.map(status => status.message)[order.status.length - 1] === "Preparing Order" ? "#007BFF" : order.status.map(status => status.message)[order.status.length - 1] === "Order Shipped" ? "#ED8C05" : order.status.map(status => status.message)[order.status.length - 1] === "Order Completed" ? "#1FAC64" : "#6E717D" }} className={` text-sm   `}>{
+                                            order.status.map(status => status.message)[order.status.length - 1]
+                                        }</td>
+
+                                        <td className="text-[#6E717D] text-sm py-3"> {order?.paymentMethod}</td>
+                                        <td className="text-[#6E717D] text-sm py-3"> ${(order.subtotal / 100).toFixed(2)}</td>
+                                        <td className="text-[#6E717D] text-sm py-3 text-end"> Details</td>
+
+                                    </tr>
+                                })
+                            }
+                        </tbody>
+
+
+
+
+
+
+
+
+
+
+                    </table>
+                </div>
+        }
 
 
 
