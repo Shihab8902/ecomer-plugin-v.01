@@ -6,6 +6,7 @@ import Dashboard from "../pages/Dashboard";
 import PrivateRoute from "../hooks/PrivateRoute";
 import ManageStore from "../pages/ManageStore";
 import OrderDetails from "../pages/OrderDetails";
+import ManageOrder from "../pages/ManageOrder";
 
 export const router = createBrowserRouter([
     {
@@ -36,6 +37,12 @@ export const router = createBrowserRouter([
                 path: "/order/details",
                 element: <PrivateRoute>
                     <OrderDetails />
+                </PrivateRoute>
+            },
+            {
+                path: "/order/manage",
+                element: <PrivateRoute>
+                    <ManageOrder />
                 </PrivateRoute>
             }
         ]

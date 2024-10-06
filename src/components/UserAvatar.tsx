@@ -4,12 +4,18 @@ import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from "react-router-dom";
 
 
+
+
 const UserAvatar = () => {
     const { user, logOut } = useContext(UserContext);
     const [isOpen, setIsOpen] = useState(false);
     const popupRef = useRef<HTMLDivElement>(null);
 
     const navigate = useNavigate();
+
+
+    const theme = document.body.dataset.framerTheme;
+
 
     const togglePopup = () => {
         setIsOpen(!isOpen);
@@ -44,7 +50,7 @@ const UserAvatar = () => {
                     Confirm
                 </button>
             </span>
-        ), { position: "top-center" });
+        ), { position: "bottom-center" });
     }
 
 
@@ -63,7 +69,7 @@ const UserAvatar = () => {
 
             <div
                 ref={popupRef}
-                className={`absolute z-50  right-0 mt-2 w-64  shadow-lg p-5 rounded-md transition-opacity duration-200 ease-in-out ${isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+                className={`absolute z-50 ${theme === "dark" ? "bg-[#000]" : "bg-white"}  right-0 mt-2 w-64  shadow-lg p-5 rounded-md transition-opacity duration-200 ease-in-out ${isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
                     }`}
                 style={{ transition: "opacity 200ms ease-in-out" }}
             >

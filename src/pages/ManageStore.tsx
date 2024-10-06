@@ -7,6 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import LoaderSpinner from "../components/LoaderSpinner";
 import useAxiosPublic from "../hooks/useAxiosPublic";
 import { IoIosArrowRoundBack } from "react-icons/io";
+import { framer } from "framer-plugin";
 
 
 const ManageStore = () => {
@@ -28,7 +29,10 @@ const ManageStore = () => {
     const handleStoreIdCopy = () => {
         navigator.clipboard.writeText(store?.storeId)
             .then(() => {
-                toast.success("Copied to Clipboard!");
+                framer.notify("Copied to clipboard!", {
+                    durationMs: 3000,
+                    variant: "success",
+                })
             })
     }
 
@@ -55,11 +59,18 @@ const ManageStore = () => {
                 if (res.data) {
                     refetchStore();
                     setIsStoreUpdating(false);
-                    toast.success("Store updated successfully!");
+                    navigate("/")
+                    framer.notify("Store updated successfully", {
+                        durationMs: 3000,
+                        variant: "success",
+                    })
 
                 }
             }).catch(error => {
-                toast.error(error.message);
+                framer.notify(error.message, {
+                    durationMs: 3000,
+                    variant: "error",
+                })
                 setIsStoreUpdating(false);
             })
     }

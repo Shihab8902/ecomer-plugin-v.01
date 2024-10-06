@@ -8,6 +8,7 @@ import useStoreInfo from '../hooks/useStoreInfo';
 import toast, { Toaster } from 'react-hot-toast';
 import { UserContext } from '../context/AuthProvider';
 import LoaderSpinner from './LoaderSpinner';
+import { framer } from 'framer-plugin';
 
 const CreateStore = () => {
 
@@ -40,12 +41,18 @@ const CreateStore = () => {
         axiosPublic.post("/store", storeData)
             .then(() => {
                 refetchStore();
-                toast.success("Store created!");
+                framer.notify("Store Created!", {
+                    durationMs: 3000,
+                    variant: "success",
+                })
                 setIsStoreCreating(false);
                 navigate("/")
 
             }).catch(error => {
-                toast.error(error.message)
+                framer.notify(error.message, {
+                    durationMs: 3000,
+                    variant: "error",
+                })
                 setIsStoreCreating(false);
             })
 

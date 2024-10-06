@@ -3,23 +3,19 @@ import useOrderInfo from "../hooks/useOrderInfo";
 import UserAvatar from "./UserAvatar";
 import { useNavigate } from "react-router-dom";
 import LoaderSpinner from "./LoaderSpinner";
-import moment from 'moment';
+import { useState } from "react";
 
 
 export const OrderTable = () => {
 
     const navigate = useNavigate();
+    const [filterValue, setFilterValue] = useState("All");
 
-    const { orders, refetchOrders, ordersLoading } = useOrderInfo();
+    const { orders, ordersLoading } = useOrderInfo({ filter: filterValue });
 
-    const formatDate = (dateString: string) => {
-        if (dateString === "unknown") {
-            return "unknown";
-        }
 
-        const date = moment(dateString);
-        return date.format('Do MMMM YYYY');
-    };
+
+
 
 
     return <div>
@@ -36,9 +32,9 @@ export const OrderTable = () => {
         <div className="flex justify-end mt-5">
             <div className="max-w-64 ">
                 <select onChange={(e) => {
-                    // setFilterValue(e.target.value)
+                    setFilterValue(e.target.value)
                 }
-                } name="filter" defaultValue="" id="filter" className="w- rounded-md px-3 cursor-pointer font-semibold  outline-none">
+                } name="filter" defaultValue="" id="filter" className=" rounded-md px-3 cursor-pointer font-semibold  outline-none">
                     <option value="" disabled>Filter By</option>
                     <option value="All">All</option>
                     <option value="Order Received" >Order Received</option>
@@ -52,7 +48,7 @@ export const OrderTable = () => {
 
         {/* Display order table */}
         {
-            ordersLoading ? <LoaderSpinner shapeHeight="40" shapeWidth="40" shapeColor="#6E717D" /> : orders?.length < 1 ? <h3>No order data found!</h3> :
+            ordersLoading ? <LoaderSpinner shapeHeight="40" shapeWidth="40" shapeColor="#6E717D" /> : orders?.length < 1 ? <h3 className="text-center text-base mt-10">No order data found!</h3> :
                 <div className="overflow-x-auto mt-10">
                     <table className=" table text-center min-w-[600px]  border-collapse border-spacing-0 w-full ">
 
