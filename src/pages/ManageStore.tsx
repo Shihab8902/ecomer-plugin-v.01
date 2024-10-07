@@ -1,18 +1,26 @@
-import { FaCopy, FaEye, FaEyeSlash, FaRegEdit } from "react-icons/fa";
+import { FaCopy, FaEye, FaEyeSlash, FaRegCheckCircle, FaRegEdit } from "react-icons/fa";
 import UserAvatar from "../components/UserAvatar";
 import useStoreInfo from "../hooks/useStoreInfo"
-import toast, { Toaster } from "react-hot-toast";
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useMemo, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import LoaderSpinner from "../components/LoaderSpinner";
 import useAxiosPublic from "../hooks/useAxiosPublic";
-import { IoIosArrowRoundBack } from "react-icons/io";
+import { IoIosArrowRoundBack, IoIosHome } from "react-icons/io";
 import { framer } from "framer-plugin";
+import { PiCaretRightBold } from "react-icons/pi";
+import Select from 'react-select'
+import countryList from 'react-select-country-list'
+import { IoSettingsSharp } from "react-icons/io5";
+import { MdPayments } from "react-icons/md";
 
 
 const ManageStore = () => {
 
-    const { store, storeLoading, refetchStore } = useStoreInfo();
+    const { storeLoading, refetchStore } = useStoreInfo();
+
+    const { currentStore: store } = useStoreInfo();
+
+
 
     const [visiblePassword, setVisiblePassword] = useState(false);
     const [isYocoSecretFieldVisible, setIsYocoSecretFieldVisible] = useState(false);
@@ -20,6 +28,13 @@ const ManageStore = () => {
     const [isStripeChecked, setIsStripeChecked] = useState(false);
     const [isYocoChecked, setIsYocoChecked] = useState(false);
     const [isStoreUpdating, setIsStoreUpdating] = useState(false);
+    const [location, setLocation] = useState(store?.location);
+
+
+    //Set location value
+    useEffect(() => {
+        setLocation(store?.location);
+    }, [store])
 
     const axiosPublic = useAxiosPublic();
     const navigate = useNavigate();
@@ -51,10 +66,11 @@ const ManageStore = () => {
         e.preventDefault();
         setIsStoreUpdating(true)
         const storeName = e.target.storeName.value;
-        const stripeSecret = e.target?.stripeSecret?.value || store?.stripeSecret || e.target?.newStripeSecret?.value
-        const yocoSecret = e.target?.yocoSecret?.value || store?.yocoSecret || e.target?.newYocoSecret?.value
 
-        axiosPublic.put(`/store?id=${store?._id}`, { storeName, stripeSecret, yocoSecret })
+        // const stripeSecret = e.target?.stripeSecret?.value || store?.stripeSecret || e.target?.newStripeSecret?.value
+        // const yocoSecret = e.target?.yocoSecret?.value || store?.yocoSecret || e.target?.newYocoSecret?.value
+
+        axiosPublic.put(`/store?id=${store?._id}`, { storeName, location })
             .then(res => {
                 if (res.data) {
                     refetchStore();
@@ -76,10 +92,17 @@ const ManageStore = () => {
     }
 
 
+    //Country selection
+    const options = useMemo(() => countryList().getData(), [])
 
-    return <main className="mx-5">
+
+
+
+
+
+    return <main className="mb-14">
         {/* Top bar */}
-        <div className="flex w-full justify-between items-center border-b pb-1">
+        <div className="flex w-full justify-between items-center border-b pb-1 px-5">
             <div className="flex items-center gap-2">
                 <span onClick={() => navigate(-1)}><IoIosArrowRoundBack className="text-2xl cursor-pointer" /></span>
                 <h3 className="text-center font-semibold text-2xl ">Manage Store</h3>
@@ -101,115 +124,27 @@ const ManageStore = () => {
                         <input className="w-full p-3 rounded-md mb-2  h-10 " type="text" name="storeName" id="storeName" defaultValue={store?.storeName} placeholder="Enter store name" required />
                     </div>
 
+                    {/* Store location */}
+                    <div className='mt-3'>
+                        <label className="block text-sm mb-1 font-medium" htmlFor="location">Business Location</label>
+                        <Select options={options} className='cursor-pointer rounded-md' defaultValue={location} value={location} onChange={(value) => setLocation(value)} />
+                    </div>
+
 
                     {/* Store id */}
-                    <div>
+                    <div className="mt-3">
                         <label className="block text-sm mb-1 font-medium" htmlFor="storeId">Store ID</label>
                         <div className="w-full rounded-md p-3 mb-2 border text-xs flex justify-between items-center border-gray-100 ">
                             {store?.storeId} <span onClick={handleStoreIdCopy} title='Copy Store ID' className='cursor-pointer'><FaCopy /></span>
                         </div>
                     </div>
 
-                    {/* Render new payment method integration */}
-                    <div className='mt-3 rounded-lg'>
-                        <label className="block text-sm mb-1 font-medium" htmlFor="paymentMethod">Select Payment Method</label>
-                        <div >
-                            <div className='flex items-center justify-between border mt-2  h-8 px-3 border-[#D3D3D4]'>
-                                <input checked disabled className='w-5 h-5 cursor-pointer' type="checkbox" name="codCheckbox" id="codCheckbox" />
-                                <img className='w-10' src="../../public/cod.svg" alt="Cash on Delivery" />
-                            </div>
 
-                            <div className='flex items-center justify-between border border-t-0  h-8 px-3 border-[#D3D3D4]'>
-                                <input className='w-5 h-5 cursor-pointer' disabled={store?.stripeSecret} checked={store?.stripeSecret} onChange={() => setIsStripeChecked(!isStripeChecked)} type="checkbox" name="stripeCheckbox" id="stripeCheckbox" />
-                                <img className='w-10' src="../../public/stripe.png" alt="Stripe" />
-                            </div>
-
-                            <div className='flex items-center justify-between border border-t-0 h-8  px-3 border-[#D3D3D4]'>
-                                <input disabled={store?.yocoSecret} checked={store?.yocoSecret} className='w-5 h-5 cursor-pointer' onChange={() => setIsYocoChecked(!isYocoChecked)} type="checkbox" name="yocoCheckbox" id="yocoCheckbox" />
-                                <img className='w-10' src="../../public/yoco.svg" alt="YOCO" />
-                            </div>
-                        </div>
-                    </div>
-
-
-
-                    {/* Render stripe secret field */}
-                    {
-                        isStripeChecked && <>
-                            <div className="relative mt-3">
-                                <label className="block text-sm mb-1 font-medium" htmlFor="stripeSecret">Stripe Secret Key</label>
-                                <input className="w-full p-3 rounded-md  h-10" type={visiblePassword ? "text" : "password"} name="stripeSecret" id="stripeSecret" placeholder="Enter stripe secret" required />
-                                <span onClick={() => setVisiblePassword(!visiblePassword)} className="absolute bottom-3 right-2 text-base text-gray-400 cursor-pointer">{visiblePassword ? <FaEye /> : <FaEyeSlash />}</span>
-                            </div>
-                            <p className=" mt-1 text-[#232327]  text-[9px]">For retrieving your Stripe Secret, visit the <Link className="font-bold hover:underline" to="https://docs.stripe.com/keys" target='_blank'>Stripe API documentation.</Link></p>
-                        </>
-                    }
-
-
-
-                    {/* Render yoco secret field */}
-                    {
-                        isYocoChecked && <>
-                            <div className="relative mt-3">
-                                <label className="block text-sm mb-1 font-medium" htmlFor="yocoSecret">YOCO Secret Key</label>
-                                <input className="w-full p-3 rounded-md  h-10" type={visiblePassword ? "text" : "password"} name="yocoSecret" id="yocoSecret" placeholder="Enter YOCO secret" required />
-                                <span onClick={() => setVisiblePassword(!visiblePassword)} className="absolute bottom-3 right-2 text-base text-gray-400 cursor-pointer">{visiblePassword ? <FaEye /> : <FaEyeSlash />}</span>
-                            </div>
-                            <p className=" mt-1 text-[#232327] text-[9px]">For retrieving your YOCO Secret, visit the <Link className="font-bold hover:underline" to="https://developer.yoco.com/online/resources/integration-keys" target='_blank'>YOCO API documentation.</Link></p>
-                        </>
-                    }
-
-
-                    {/* Render Stripe credentials */}
-                    {
-                        store?.stripeSecret && <>
-                            {/* Stripe Secret */}
-                            <div className="mt-3">
-                                <label className="block text-sm mb-1 font-medium" htmlFor="storeName">Stripe Secret</label>
-                                <div className="w-full p-3 border flex justify-between  border-gray-100 ">
-                                    <p className='w-full overflow-x-auto break-words text-xs pr-2'>{formatSecret(store?.stripeSecret)}</p> <span title='Update Stripe Secret' onClick={() => setIsStripeSecretFieldVisible(!isStripeSecretFieldVisible)} className='cursor-pointer'><FaRegEdit className='text-base' /></span>
-                                </div>
-                            </div>
-
-                            {/* Stripe Secret field */}
-                            {
-                                isStripeSecretFieldVisible && <div className="relative mt-3">
-                                    <label className="block text-sm mb-1 font-medium" htmlFor="stripeSecret">Stripe Secret Key</label>
-                                    <input className="w-full p-3 rounded-md  h-10" type={visiblePassword ? "text" : "password"} name="stripeSecret" id="stripeSecret" placeholder="Enter stripe secret" required />
-                                    <span onClick={() => setVisiblePassword(!visiblePassword)} className="absolute bottom-3 right-2 text-base text-gray-400 cursor-pointer">{visiblePassword ? <FaEye /> : <FaEyeSlash />}</span>
-                                </div>
-
-                            }
-                        </>
-                    }
-
-
-                    {/* Render YOCO credentials */}
-                    {
-                        store?.yocoSecret && <>
-                            {/* YOCO Secret */}
-                            <div className="mt-3">
-                                <label className="block text-sm mb-1 font-medium" htmlFor="yocoSecret">YOCO Secret</label>
-                                <div className="w-full p-3 border flex justify-between  border-gray-100 ">
-                                    <p className='w-full overflow-x-auto break-words text-xs pr-2'>{formatSecret(store?.yocoSecret)}</p> <span title='Update YOCO Secret' onClick={() => setIsYocoSecretFieldVisible(!isYocoSecretFieldVisible)} className='cursor-pointer'><FaRegEdit className='text-base' /></span>
-                                </div>
-                            </div>
-
-                            {/* YOCO Secret field */}
-                            {
-                                isYocoSecretFieldVisible && <div className="relative mt-2">
-                                    <label className="block text-sm mb-1 font-medium" htmlFor="yocoSecret">YOCO Secret Key</label>
-                                    <input className="w-full p-3 rounded-md  h-10" type={visiblePassword ? "text" : "password"} name="yocoSecret" id="yocoSecret" placeholder="Enter YOCO secret" required />
-                                    <span onClick={() => setVisiblePassword(!visiblePassword)} className="absolute bottom-3 right-2 text-base text-gray-400 cursor-pointer">{visiblePassword ? <FaEye /> : <FaEyeSlash />}</span>
-                                </div>
-                            }
-                        </>
-                    }
 
 
                     <button type="submit" disabled={isStoreUpdating} className="w-full disabled:bg-[#232327] bg-[#232327] h-10 p-2 hover:bg-black text-white flex items-center justify-center gap-2 mt-5">
                         {
-                            isStoreUpdating ? <><span>Updating</span> <LoaderSpinner shapeHeight='15' shapeWidth='15' shapeColor='#fff' /></> : "Update"
+                            isStoreUpdating ? <><span>Saving</span> <LoaderSpinner shapeHeight='15' shapeWidth='15' shapeColor='#fff' /></> : "Save"
                         }
                     </button>
 
@@ -222,9 +157,46 @@ const ManageStore = () => {
 
 
 
+        {/* Bottom bar */}
+        <nav className="w-full h-14 fixed bottom-0 bg-[#232327] text-white flex flex-col items-center justify-center">
+            <ul className="p-1 flex items-center justify-evenly w-full">
+                <li><Link className="flex items-center flex-col cursor-pointer" to="/"> <IoIosHome className="text-2xl" /> Home</Link></li>
+                <li><Link className="flex items-center flex-col cursor-pointer" to="/store/manage"> <IoSettingsSharp className="text-2xl" /> General</Link></li>
+                <li><Link className="flex items-center flex-col cursor-pointer" to="/store/payments"> <MdPayments className="text-2xl" /> Payments</Link></li>
 
-        <Toaster />
+            </ul>
+
+        </nav>
+
+
+
+
+
+
+
+
     </main>
 }
 
 export default ManageStore
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

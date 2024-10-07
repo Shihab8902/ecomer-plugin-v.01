@@ -12,25 +12,23 @@ const Dashboard = () => {
     const { ordersLoading } = useOrderInfo({ filter: "All" });
 
     {/* Conditional render store creation  */ }
-    if (!store?.storeId) {
+    if (!store) {
         return <main className="px-5">
 
             {
-                storeLoading ? <LoaderSpinner shapeHeight="40" shapeWidth="40" shapeColor="#6E717D" /> : !store?.storeId && <CreateStore />
+                storeLoading ? <LoaderSpinner shapeHeight="40" shapeWidth="40" shapeColor="#6E717D" /> : !store && <CreateStore />
 
             }
         </main>
     }
 
 
-
-
     {/* Conditional render order information */ }
-    if (store?.storeId) {
+    if (store) {
         return <main className="px-5">
 
             {
-                ordersLoading ? <LoaderSpinner shapeHeight="40" shapeWidth="40" shapeColor="#6E717D" /> : store?.storeId && <OrderTable />
+                ordersLoading ? <LoaderSpinner shapeHeight="40" shapeWidth="40" shapeColor="#6E717D" /> : store && <OrderTable />
             }
         </main>
     }

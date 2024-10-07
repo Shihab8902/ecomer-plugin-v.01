@@ -7,6 +7,8 @@ import PrivateRoute from "../hooks/PrivateRoute";
 import ManageStore from "../pages/ManageStore";
 import OrderDetails from "../pages/OrderDetails";
 import ManageOrder from "../pages/ManageOrder";
+import CreateStore from "../components/CreateStore";
+import PaymentMethods from "../pages/PaymentMethods";
 
 export const router = createBrowserRouter([
     {
@@ -44,7 +46,21 @@ export const router = createBrowserRouter([
                 element: <PrivateRoute>
                     <ManageOrder />
                 </PrivateRoute>
+            },
+            {
+                path: "/store/create",
+                element: <PrivateRoute>
+                    <CreateStore />
+                </PrivateRoute>
+            },
+            {
+                path: "/store/payments",
+                element: <PrivateRoute>
+                    <PaymentMethods />
+                </PrivateRoute>
             }
+
+
         ]
     }
 ])

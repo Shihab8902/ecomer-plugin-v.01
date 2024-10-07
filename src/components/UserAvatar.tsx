@@ -2,6 +2,12 @@ import { useContext, useState, useRef, useEffect } from "react";
 import { UserContext } from "../context/AuthProvider";
 import toast, { Toaster } from 'react-hot-toast';
 import { useNavigate } from "react-router-dom";
+import useStoreInfo from "../hooks/useStoreInfo";
+import Avatar from 'react-avatar';
+import { MdOutlineSettings } from "react-icons/md";
+import { LuPlus } from "react-icons/lu";
+import useOrderInfo from "../hooks/useOrderInfo";
+
 
 
 
@@ -12,6 +18,9 @@ const UserAvatar = () => {
     const popupRef = useRef<HTMLDivElement>(null);
 
     const navigate = useNavigate();
+    const { currentStore, store, selectNewStore } = useStoreInfo();
+    const { refetchOrders } = useOrderInfo({ filter: "All", currentStore: currentStore });
+
 
 
     const theme = document.body.dataset.framerTheme;
@@ -20,6 +29,13 @@ const UserAvatar = () => {
     const togglePopup = () => {
         setIsOpen(!isOpen);
     };
+
+
+
+    //Refetch store items
+    useEffect(() => {
+        refetchOrders();
+    }, [currentStore, refetchOrders])
 
     const handleClickOutside = (event: MouseEvent) => {
         if (popupRef.current && !popupRef.current.contains(event.target as Node)) {
@@ -61,8 +77,9 @@ const UserAvatar = () => {
                 onClick={togglePopup}
                 className="btn btn-ghost btn-circle avatar cursor-pointer"
             >
-                <div className="w-10 ">
-                    <img alt="User" className="rounded-full" src={user?.photoURL} />
+                <div className="w-full flex items-center gap-1 border p-1 rounded bg-gray-100">
+                    <Avatar name={currentStore?.storeName} size="28" round="5px" color="#000" />
+                    <p>{currentStore?.storeName}</p>
                 </div>
             </div>
 
@@ -73,23 +90,58 @@ const UserAvatar = () => {
                     }`}
                 style={{ transition: "opacity 200ms ease-in-out" }}
             >
-                <div className="flex items-center gap-3">
-                    <img
-                        src={user?.photoURL}
-                        className="w-10 h-10 rounded-full"
-                        alt="User"
-                    />
-                    <div className="max-w-[150px]">
-                        {user?.displayName && (
-                            <p className="font-bold text-sm  break-words">
-                                Name: {user?.displayName}
-                            </p>
-                        )}
-                        <p className="text-[#6E717D] text-xs break-words">{user?.email}</p>
-                    </div>
+
+
+                {/* Display stores */}
+                <div className=" max-h-60 overflow-auto flex flex-col gap-1">
+                    {
+                        store && store?.map(store => {
+                            return <div onClick={() => {
+                                selectNewStore(store)
+
+                            }} key={store?._id} className={`w-full flex  justify-between items-center border ${currentStore === store && " bg-gray-100 cursor-default"}  cursor-pointer p-1 rounded `}>
+                                <div className="flex items-center gap-1">
+                                    <Avatar name={store?.storeName} size="24" round="5px" color="#000" />
+                                    <p>{store?.storeName}</p>
+                                </div>
+                                {
+                                    currentStore === store && <span className="text-xl cursor-pointer" onClick={() => navigate("/store/manage")}>
+                                        <MdOutlineSettings />
+                                    </span>
+                                }
+                            </div>
+                        })
+                    }
                 </div>
 
-                <button onClick={handleLogOut} className="py-1 w-full mt-4 font-semibold text-white bg-[#E93725] hover:bg-[#c82a1c] rounded-md">
+                {/* New store create button */}
+                <div className="mt-5">
+                    <button onClick={() => navigate("/store/create")} className="flex items-center justify-center gap-2 w-full rounded-md bg-[#232327] text-white hover:bg-black"><LuPlus /> Create Store</button>
+                </div>
+
+
+
+                <div className="framer-divider my-5" />
+
+
+
+
+
+
+
+
+
+                <div className="max-w-[150px]">
+                    {user?.displayName && (
+                        <p className="font-bold text-sm  break-words">
+                            {user?.displayName}
+                        </p>
+                    )}
+                    <p className="text-[#6E717D] text-xs break-words">{user?.email}</p>
+                </div>
+
+
+                <button onClick={handleLogOut} className="py-1 w-ful text-left hover:bg-transparent mt-2 font-semibold rounded-md">
                     Logout
                 </button>
             </div>

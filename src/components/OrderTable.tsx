@@ -4,14 +4,16 @@ import UserAvatar from "./UserAvatar";
 import { useNavigate } from "react-router-dom";
 import LoaderSpinner from "./LoaderSpinner";
 import { useState } from "react";
+import useStoreInfo from "../hooks/useStoreInfo";
 
 
 export const OrderTable = () => {
 
     const navigate = useNavigate();
     const [filterValue, setFilterValue] = useState("All");
+    const { currentStore } = useStoreInfo();
 
-    const { orders, ordersLoading } = useOrderInfo({ filter: filterValue });
+    const { orders, ordersLoading } = useOrderInfo({ filter: filterValue, currentStore: currentStore });
 
 
 
@@ -23,7 +25,7 @@ export const OrderTable = () => {
         <div className="flex justify-between flex-wrap  items-center border-b pb-1">
             <h3 className="text-center font-semibold text-2xl">Recent Orders</h3>
             <div className="flex items-center gap-5">
-                <button onClick={() => navigate("/store/manage")} className="flex items-center gap-1 w-fit focus:bg-black bg-[#232327] h-[36px] px-3 rounded-md hover:bg-black text-white"> <VscSettings />Manage Store</button>
+                {/* <button onClick={() => navigate("/store/manage")} className="flex items-center gap-1 w-fit focus:bg-black bg-[#232327] h-[36px] px-3 rounded-md hover:bg-black text-white"> <VscSettings />Manage Store</button> */}
                 <UserAvatar />
             </div>
         </div>
