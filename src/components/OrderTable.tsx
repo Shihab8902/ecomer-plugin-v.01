@@ -22,12 +22,12 @@ export const OrderTable = () => {
 
 
 
-    return <div>
+    return <div >
         {/* Top bar */}
         <div className="flex justify-between flex-wrap  items-center border-b pb-1 px-5">
             <h3 className="text-center font-semibold text-2xl">Recent Orders</h3>
             <div className="flex items-center gap-5">
-                {/* <button onClick={() => navigate("/store/manage")} className="flex items-center gap-1 w-fit focus:bg-black bg-[#232327] h-[36px] px-3 rounded-md hover:bg-black text-white"> <VscSettings />Manage Store</button> */}
+
                 <UserAvatar />
             </div>
         </div>
@@ -53,7 +53,7 @@ export const OrderTable = () => {
         {/* Display order table */}
         {
             ordersLoading ? <LoaderSpinner shapeHeight="40" shapeWidth="40" shapeColor="#6E717D" /> : orders?.length < 1 ? <h3 className="text-center text-base mt-10">No order data found!</h3> :
-                <div className="overflow-x-auto mt-10 px-5">
+                <div className="overflow-x-auto mt-10 px-5 mb-5">
                     <table className=" table text-center min-w-[600px]  border-collapse border-spacing-0 w-full ">
 
                         <thead className="border-b text-sm ">

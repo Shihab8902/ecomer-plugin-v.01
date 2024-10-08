@@ -2,7 +2,6 @@
 import { useContext, useMemo, useState } from 'react';
 import UserAvatar from './UserAvatar'
 import { Link, useNavigate } from 'react-router-dom';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import useAxiosPublic from '../hooks/useAxiosPublic';
 import useStoreInfo from '../hooks/useStoreInfo';
 import toast, { Toaster } from 'react-hot-toast';
@@ -16,9 +15,6 @@ const CreateStore = () => {
 
     const navigate = useNavigate();
 
-    // const [isStripeChecked, setIsStripeChecked] = useState(false);
-    // const [visiblePassword, setVisiblePassword] = useState(false);
-    // const [isYocoChecked, setIsYocoChecked] = useState(false);
     const [isStoreCreating, setIsStoreCreating] = useState(false);
     const [location, setLocation] = useState('')
 
@@ -33,8 +29,6 @@ const CreateStore = () => {
         e.preventDefault();
         setIsStoreCreating(true)
         const storeName = e.target?.storeName?.value;
-        // const stripeSecret = e.target?.stripeSecret?.value;
-        // const yocoSecret = e.target?.yocoSecret?.value;
         const storeData = {
             storeName,
             location,

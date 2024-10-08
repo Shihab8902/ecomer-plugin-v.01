@@ -23,7 +23,6 @@ const ManageStore = () => {
 
     const [visiblePassword, setVisiblePassword] = useState(false);
     const [isYocoSecretFieldVisible, setIsYocoSecretFieldVisible] = useState(false);
-    const [isStripeSecretFieldVisible, setIsStripeSecretFieldVisible] = useState(false);
     const [isStripeChecked, setIsStripeChecked] = useState(false);
     const [isYocoChecked, setIsYocoChecked] = useState(false);
     const [isStoreUpdating, setIsStoreUpdating] = useState(false);
@@ -50,15 +49,6 @@ const ManageStore = () => {
             })
     }
 
-    //Format secret
-    const formatSecret = (secret: string) => {
-        if (!secret) return '';
-        const length = secret.length;
-        const lastFour = secret.slice(-4);
-        const maskedPart = '*'.repeat(length - 4);
-        return maskedPart + lastFour;
-    };
-
 
 
     const handleFormSubmit = e => {
@@ -66,8 +56,6 @@ const ManageStore = () => {
         setIsStoreUpdating(true)
         const storeName = e.target.storeName.value;
 
-        // const stripeSecret = e.target?.stripeSecret?.value || store?.stripeSecret || e.target?.newStripeSecret?.value
-        // const yocoSecret = e.target?.yocoSecret?.value || store?.yocoSecret || e.target?.newYocoSecret?.value
 
         axiosPublic.put(`/store?id=${store?._id}`, { storeName, location })
             .then(res => {
