@@ -16,9 +16,8 @@ import { MdPayments } from "react-icons/md";
 
 const ManageStore = () => {
 
-    const { storeLoading, refetchStore } = useStoreInfo();
+    const { storeLoading, refetchStore, currentStore: store } = useStoreInfo();
 
-    const { currentStore: store } = useStoreInfo();
 
 
 

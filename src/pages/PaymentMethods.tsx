@@ -7,6 +7,9 @@ import { PiCaretRightBold } from "react-icons/pi";
 import { useState } from "react";
 import useStoreInfo from "../hooks/useStoreInfo";
 import { FaRegCheckCircle } from "react-icons/fa";
+import useAxiosPublic from "../hooks/useAxiosPublic";
+import { framer } from "framer-plugin";
+import toast from "react-hot-toast";
 
 
 const PaymentMethods = () => {
@@ -17,8 +20,106 @@ const PaymentMethods = () => {
     const [isStripeOpen, setIsStripeOpen] = useState(false);
     const [isYocoOpen, setIsYocoOpen] = useState(false);
 
-    const { currentStore: store } = useStoreInfo();
 
+    const axiosPublic = useAxiosPublic();
+
+    const { currentStore: store, refetchStore } = useStoreInfo();
+
+
+    //Success message on payment method deactivation
+    const successMessage = () => {
+        return framer.notify("The payment method has been successfully deactivated.", {
+            durationMs: 3000,
+            variant: "success"
+        });
+    }
+
+    //Success message on payment method deactivation
+    const successActivationMethod = () => {
+        return framer.notify("The payment method has been successfully activated.", {
+            durationMs: 3000,
+            variant: "success"
+        });
+    }
+
+
+    //Error message on payment method deactivation
+    const errorMessage = (message) => {
+        return framer.notify(message, {
+            durationMs: 3000,
+            variant: "error"
+        });
+    }
+
+
+    //Handle payment method deactivation
+    const handlePaymentMethodDeactivation = (method: string) => {
+        switch (method) {
+            case "cod": {
+
+
+                toast((t) => (
+
+                    <span>
+                        <span className="text-center font-semibold w-ull block">Are you sure you want to deactivate the payment method? Related services will stop functioning.</span>
+                        <button className="bg-[#E93725] text-white mt-3 hover:bg-[#c82a1c]" onClick={() => {
+                            axiosPublic.put(`/payment/deactivate?id=${store?._id}&method=${method}`)
+                                .then(result => {
+                                    if (result.data === "success") {
+                                        toast.dismiss(t.id);
+                                        successMessage();
+                                        refetchStore();
+                                        return;
+                                    }
+
+                                })
+                                .catch(error => {
+                                    errorMessage(error.message);
+                                })
+
+                        }}>
+                            Confirm
+                        </button>
+                    </span>
+
+                ), { position: "bottom-center" });
+
+            }
+                break;
+            default: framer.notify("Invalid operation!", {
+                durationMs: 3000,
+                variant: "error"
+            })
+        }
+    }
+
+
+
+    //Handle payment method activation
+    const handlePaymentMethodActivation = (method: string) => {
+        switch (method) {
+            case "cod": {
+                axiosPublic.put(`/payment/activate?id=${store?._id}&method=${method}`)
+                    .then(result => {
+                        if (result.data === "success") {
+                            successActivationMethod();
+                            refetchStore();
+                            return;
+                        }
+
+                    })
+                    .catch(error => {
+                        errorMessage(error.message);
+                    })
+
+            }
+                break;
+            default: framer.notify("Invalid operation!", {
+                durationMs: 3000,
+                variant: "error"
+            })
+        }
+    }
 
 
 
@@ -49,7 +150,10 @@ const PaymentMethods = () => {
                         </div>
                         {
                             store?.allowCod ? <span className="flex items-center gap-1 text-sm text-[#1FAC64]"><FaRegCheckCircle /> <span className="text-xs font-semibold ">Active</span></span>
-                                : <button className=" w-fit h-fit px-3 py-1 rounded-md bg-gray-200">Turn on</button>
+                                : <button onClick={(e) => {
+                                    e.stopPropagation();
+                                    handlePaymentMethodActivation("cod");
+                                }} className=" w-fit h-fit px-3 py-1 rounded-md bg-gray-200">Turn on</button>
                         }
                     </div>
 
@@ -59,7 +163,7 @@ const PaymentMethods = () => {
                             <p className="mt-2 text-xs font-medium leading-4">Cash on Delivery enables us to collect payment from customers at the time of delivery, ensuring a secure transaction without upfront online payments.</p>
                             {
                                 store?.allowCod && <div className="w-full flex justify-end mt-5">
-                                    <button type="button" className="w-20 rounded-md text-white cursor-pointer bg-[#E93725] hover:bg-[#E93725] focus:bg-[#E93725]">Turn off</button>
+                                    <button onClick={() => handlePaymentMethodDeactivation("cod")} type="button" className="w-20 rounded-md text-white cursor-pointer bg-[#E93725] hover:bg-[#E93725] focus:bg-[#E93725]">Turn off</button>
                                 </div>
                             }
                         </div>

@@ -1,13 +1,14 @@
 import { useContext, useEffect, useState } from "react"
 import { UserContext } from "../context/AuthProvider"
 import useGetDataPublic from "./useGetPublic";
+import { useNavigate } from "react-router-dom";
 
 
 
 const useStoreInfo = () => {
     const [currentStore, setCurrentStore] = useState<object>({});
 
-
+    const navigate = useNavigate();
 
 
     const getSavedStore = (stores) => {
@@ -19,12 +20,13 @@ const useStoreInfo = () => {
         }
 
         setCurrentStore(stores?.[0]);
+
     }
 
     const selectNewStore = (store) => {
         localStorage.setItem("currentStore", store?._id);
         setCurrentStore(store);
-
+        navigate("/");
     }
 
 

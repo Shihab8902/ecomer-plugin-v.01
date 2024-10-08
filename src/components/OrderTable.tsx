@@ -1,10 +1,12 @@
-import { VscSettings } from "react-icons/vsc";
 import useOrderInfo from "../hooks/useOrderInfo";
 import UserAvatar from "./UserAvatar";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LoaderSpinner from "./LoaderSpinner";
 import { useState } from "react";
 import useStoreInfo from "../hooks/useStoreInfo";
+import { MdPayments } from "react-icons/md";
+import { IoSettingsSharp } from "react-icons/io5";
+import { IoIosHome } from "react-icons/io";
 
 
 export const OrderTable = () => {
@@ -22,7 +24,7 @@ export const OrderTable = () => {
 
     return <div>
         {/* Top bar */}
-        <div className="flex justify-between flex-wrap  items-center border-b pb-1">
+        <div className="flex justify-between flex-wrap  items-center border-b pb-1 px-5">
             <h3 className="text-center font-semibold text-2xl">Recent Orders</h3>
             <div className="flex items-center gap-5">
                 {/* <button onClick={() => navigate("/store/manage")} className="flex items-center gap-1 w-fit focus:bg-black bg-[#232327] h-[36px] px-3 rounded-md hover:bg-black text-white"> <VscSettings />Manage Store</button> */}
@@ -31,7 +33,7 @@ export const OrderTable = () => {
         </div>
 
         {/* Filter */}
-        <div className="flex justify-end mt-5">
+        <div className="flex justify-end mt-5 px-5">
             <div className="max-w-64 ">
                 <select onChange={(e) => {
                     setFilterValue(e.target.value)
@@ -51,7 +53,7 @@ export const OrderTable = () => {
         {/* Display order table */}
         {
             ordersLoading ? <LoaderSpinner shapeHeight="40" shapeWidth="40" shapeColor="#6E717D" /> : orders?.length < 1 ? <h3 className="text-center text-base mt-10">No order data found!</h3> :
-                <div className="overflow-x-auto mt-10">
+                <div className="overflow-x-auto mt-10 px-5">
                     <table className=" table text-center min-w-[600px]  border-collapse border-spacing-0 w-full ">
 
                         <thead className="border-b text-sm ">
@@ -103,7 +105,16 @@ export const OrderTable = () => {
 
 
 
+        {/* Bottom bar */}
+        <nav className="w-full h-14 fixed bottom-0 bg-[#232327] text-white flex flex-col items-center justify-center">
+            <ul className="p-1 flex items-center justify-evenly w-full">
+                <li><Link className="flex items-center flex-col cursor-pointer" to="/"> <IoIosHome className="text-2xl" /> Home</Link></li>
+                <li><Link className="flex items-center flex-col cursor-pointer" to="/store/manage"> <IoSettingsSharp className="text-2xl" /> General</Link></li>
+                <li><Link className="flex items-center flex-col cursor-pointer" to="/store/payments"> <MdPayments className="text-2xl" /> Payments</Link></li>
 
+            </ul>
+
+        </nav>
 
 
     </div>

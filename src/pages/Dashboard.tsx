@@ -8,8 +8,8 @@ import useStoreInfo from "../hooks/useStoreInfo"
 
 const Dashboard = () => {
 
-    const { store, storeLoading } = useStoreInfo();
-    const { ordersLoading } = useOrderInfo({ filter: "All" });
+    const { store, storeLoading, currentStore } = useStoreInfo();
+    const { ordersLoading } = useOrderInfo({ filter: "All", currentStore: currentStore });
 
     {/* Conditional render store creation  */ }
     if (!store) {
@@ -25,7 +25,7 @@ const Dashboard = () => {
 
     {/* Conditional render order information */ }
     if (store) {
-        return <main className="px-5">
+        return <main >
 
             {
                 ordersLoading ? <LoaderSpinner shapeHeight="40" shapeWidth="40" shapeColor="#6E717D" /> : store && <OrderTable />

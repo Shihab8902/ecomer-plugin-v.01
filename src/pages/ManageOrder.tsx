@@ -8,13 +8,15 @@ import moment from "moment";
 import toast, { Toaster } from "react-hot-toast";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { framer } from "framer-plugin";
+import useStoreInfo from "../hooks/useStoreInfo";
 
 
 const ManageOrder = () => {
 
     const { state } = useLocation();
     const axiosPublic = useAxiosPublic();
-    const { refetchOrders } = useOrderInfo({ filter: "All" });
+    const { currentStore } = useStoreInfo();
+    const { refetchOrders } = useOrderInfo({ filter: "All", currentStore: currentStore });
     const navigate = useNavigate();
 
     const [status, setStatus] = useState('');
@@ -105,6 +107,9 @@ const ManageOrder = () => {
 
 
         <Toaster />
+
+
+
     </div>
 }
 

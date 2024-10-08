@@ -55,7 +55,7 @@ const UserAvatar = () => {
         toast((t) => (
 
             <span>
-                <span className="text-center font-semibold w-ull block">Are you sure want to Log0ut?</span>
+                <span className="text-center font-semibold w-ull block">Are you sure want to Logout?</span>
                 <button className="bg-[#E93725] text-white mt-3 hover:bg-[#c82a1c]" onClick={() =>
                     logOut()
                         .then(() => {
@@ -105,7 +105,10 @@ const UserAvatar = () => {
                                     <p>{store?.storeName}</p>
                                 </div>
                                 {
-                                    currentStore === store && <span className="text-xl cursor-pointer" onClick={() => navigate("/store/manage")}>
+                                    currentStore === store && <span className="text-xl cursor-pointer" onClick={(e) => {
+                                        e.stopPropagation();
+                                        navigate("/store/manage");
+                                    }}>
                                         <MdOutlineSettings />
                                     </span>
                                 }
@@ -119,17 +122,7 @@ const UserAvatar = () => {
                     <button onClick={() => navigate("/store/create")} className="flex items-center justify-center gap-2 w-full rounded-md bg-[#232327] text-white hover:bg-black"><LuPlus /> Create Store</button>
                 </div>
 
-
-
                 <div className="framer-divider my-5" />
-
-
-
-
-
-
-
-
 
                 <div className="max-w-[150px]">
                     {user?.displayName && (
