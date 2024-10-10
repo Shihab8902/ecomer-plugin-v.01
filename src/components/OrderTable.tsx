@@ -1,12 +1,19 @@
 import useOrderInfo from "../hooks/useOrderInfo";
 import UserAvatar from "./UserAvatar";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import LoaderSpinner from "./LoaderSpinner";
 import { useState } from "react";
 import useStoreInfo from "../hooks/useStoreInfo";
 import BottomBar from "./BottomBar";
 
-
+interface Order {
+    _id: string;
+    orderNumber: string;
+    orderedAt: string;
+    status: { message: string }[];
+    paymentMethod: string;
+    subtotal: number;
+}
 
 export const OrderTable = () => {
 
@@ -21,7 +28,7 @@ export const OrderTable = () => {
 
 
 
-    return <div >
+    return <div className="mb-[70px]">
         {/* Top bar */}
         <div className="flex justify-between flex-wrap  items-center border-b pb-1 px-5">
             <h3 className="text-center font-semibold text-2xl">Recent Orders</h3>
@@ -68,7 +75,7 @@ export const OrderTable = () => {
 
                         <tbody>
                             {
-                                orders?.map((order: object, index: number) => {
+                                orders?.map((order: Order, index: number) => {
                                     return <tr onClick={() => navigate("/order/details", { state: order })} key={order?._id} className="border-b py-3 hover:bg-[#F4F4FC] cursor-pointer">
                                         <td className="text-[#6E717D] text-sm py-3">{index + 1}</td>
                                         <td className="text-[#6E717D] text-sm py-3">{order.orderNumber}</td>
