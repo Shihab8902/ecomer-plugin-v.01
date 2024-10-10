@@ -1,17 +1,16 @@
-import { FaCopy, FaEye, FaEyeSlash, FaRegCheckCircle, FaRegEdit } from "react-icons/fa";
+import { FaCopy } from "react-icons/fa";
 import UserAvatar from "../components/UserAvatar";
 import useStoreInfo from "../hooks/useStoreInfo"
 import { useEffect, useMemo, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import LoaderSpinner from "../components/LoaderSpinner";
 import useAxiosPublic from "../hooks/useAxiosPublic";
-import { IoIosArrowRoundBack, IoIosHome } from "react-icons/io";
 import { framer } from "framer-plugin";
-import { PiCaretRightBold } from "react-icons/pi";
+
 import Select from 'react-select'
 import countryList from 'react-select-country-list'
-import { IoSettingsSharp } from "react-icons/io5";
-import { MdPayments } from "react-icons/md";
+
+import BottomBar from "../components/BottomBar";
 
 
 const ManageStore = () => {
@@ -19,12 +18,6 @@ const ManageStore = () => {
     const { storeLoading, refetchStore, currentStore: store } = useStoreInfo();
 
 
-
-
-    const [visiblePassword, setVisiblePassword] = useState(false);
-    const [isYocoSecretFieldVisible, setIsYocoSecretFieldVisible] = useState(false);
-    const [isStripeChecked, setIsStripeChecked] = useState(false);
-    const [isYocoChecked, setIsYocoChecked] = useState(false);
     const [isStoreUpdating, setIsStoreUpdating] = useState(false);
     const [location, setLocation] = useState(store?.location);
 
@@ -91,7 +84,6 @@ const ManageStore = () => {
         {/* Top bar */}
         <div className="flex w-full justify-between items-center border-b pb-1 px-5">
             <div className="flex items-center gap-2">
-                <span onClick={() => navigate(-1)}><IoIosArrowRoundBack className="text-2xl cursor-pointer" /></span>
                 <h3 className="text-center font-semibold text-2xl ">Manage Store</h3>
             </div>
             <div>
@@ -145,16 +137,7 @@ const ManageStore = () => {
 
 
         {/* Bottom bar */}
-        <nav className="w-full h-14 fixed bottom-0 bg-[#232327] text-white flex flex-col items-center justify-center">
-            <ul className="p-1 flex items-center justify-evenly w-full">
-                <li><Link className="flex items-center flex-col cursor-pointer" to="/"> <IoIosHome className="text-2xl" /> Home</Link></li>
-                <li><Link className="flex items-center flex-col cursor-pointer" to="/store/manage"> <IoSettingsSharp className="text-2xl" /> General</Link></li>
-                <li><Link className="flex items-center flex-col cursor-pointer" to="/store/payments"> <MdPayments className="text-2xl" /> Payments</Link></li>
-
-            </ul>
-
-        </nav>
-
+        <BottomBar />
 
 
 

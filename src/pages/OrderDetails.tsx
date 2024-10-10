@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom"
 import UserAvatar from "../components/UserAvatar";
 import moment from "moment";
 import { CiEdit } from "react-icons/ci";
+import BottomBar from "../components/BottomBar";
 
 
 const OrderDetails = () => {
@@ -21,9 +22,9 @@ const OrderDetails = () => {
     };
 
 
-    return <main className="px-5">
+    return <main className="mb-16">
         {/* Top bar */}
-        <div className="flex w-full justify-between items-center border-b pb-1 flex-wrap">
+        <div className="flex w-full justify-between items-center border-b pb-1 flex-wrap px-5">
             <div className="flex items-center gap-2">
                 <span onClick={() => navigate(-1)}><IoIosArrowRoundBack className="text-2xl cursor-pointer" /></span>
                 <h3 className="text-center font-semibold text-2xl ">Order {orderNumber}</h3>
@@ -37,7 +38,7 @@ const OrderDetails = () => {
 
 
         {/*  Shipping  and order information */}
-        <div className="flex justify-between flex-wrap">
+        <div className="flex justify-between flex-wrap px-5">
 
             {/* Order information */}
             <div className="w-full">
@@ -96,9 +97,9 @@ const OrderDetails = () => {
 
 
         {/* Order summary */}
-        <h4 className=" font-semibold leading-6 text-base mt-6 mb-4">Order Summary: </h4>
+        <h4 className=" font-semibold leading-6 text-base mt-6 mb-4 px-5">Order Summary: </h4>
 
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-3 px-5">
             {
                 products?.map(product => {
                     return <div key={product?.uid}>
@@ -136,13 +137,15 @@ const OrderDetails = () => {
         </div>
 
         {/* Divider */}
-        <div className="w-full mt-3 h-[1px] border-b"></div>
+        <div className="w-full mt-3 h-[1px] border-b px-5"></div>
 
         {/* Subtotal */}
-        <div className="mt-1 flex justify-between items-center">
+        <div className="mt-1 flex justify-between items-center px-5">
             <h5 className=" font-bold leading-6 text-base">Subtotal: </h5>
             <p className=" font-bold leading-6 text-base">${(subtotal / 100).toFixed(2)}</p>
         </div>
+
+        <BottomBar />
 
 
 

@@ -9,6 +9,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { framer } from "framer-plugin";
 import useStoreInfo from "../hooks/useStoreInfo";
+import BottomBar from "../components/BottomBar";
 
 
 const ManageOrder = () => {
@@ -65,9 +66,9 @@ const ManageOrder = () => {
 
 
 
-    return <div className="px-5">
+    return <div className="mb-16">
         {/* Top bar */}
-        <div className="flex justify-between flex-wrap  items-center border-b pb-1">
+        <div className="flex justify-between flex-wrap  items-center border-b pb-1 px-5">
             <div className="flex items-center gap-2">
                 <span onClick={() => navigate(-1)}><IoIosArrowRoundBack className="text-2xl cursor-pointer" /></span>
                 <h3 className="text-center font-semibold text-2xl ">Manage Order</h3>
@@ -107,6 +108,8 @@ const ManageOrder = () => {
 
 
         <Toaster />
+
+        <BottomBar />
 
 
 

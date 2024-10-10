@@ -8,15 +8,16 @@ import useStoreInfo from "../hooks/useStoreInfo"
 
 const Dashboard = () => {
 
-    const { store, storeLoading, currentStore } = useStoreInfo();
+    const { storeLoading, currentStore } = useStoreInfo();
     const { ordersLoading } = useOrderInfo({ filter: "All", currentStore: currentStore });
 
+
     {/* Conditional render store creation  */ }
-    if (!store) {
-        return <main className="px-5">
+    if (!currentStore?.storeId) {
+        return <main >
 
             {
-                storeLoading ? <LoaderSpinner shapeHeight="40" shapeWidth="40" shapeColor="#6E717D" /> : !store && <CreateStore />
+                storeLoading ? <LoaderSpinner shapeHeight="40" shapeWidth="40" shapeColor="#6E717D" /> : !currentStore?.storeId && <CreateStore />
 
             }
         </main>
@@ -24,11 +25,11 @@ const Dashboard = () => {
 
 
     {/* Conditional render order information */ }
-    if (store) {
+    if (currentStore?.storeId) {
         return <main >
 
             {
-                ordersLoading ? <LoaderSpinner shapeHeight="40" shapeWidth="40" shapeColor="#6E717D" /> : store && <OrderTable />
+                ordersLoading ? <LoaderSpinner shapeHeight="40" shapeWidth="40" shapeColor="#6E717D" /> : currentStore?.storeId && <OrderTable />
             }
         </main>
     }

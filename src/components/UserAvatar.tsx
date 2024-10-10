@@ -93,7 +93,7 @@ const UserAvatar = () => {
 
 
                 {/* Display stores */}
-                <div className=" max-h-60 overflow-auto flex flex-col gap-1">
+                <div className=" max-h-48 overflow-auto flex flex-col gap-1">
                     {
                         store && store?.map(store => {
                             return <div onClick={() => {

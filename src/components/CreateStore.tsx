@@ -4,12 +4,12 @@ import UserAvatar from './UserAvatar'
 import { Link, useNavigate } from 'react-router-dom';
 import useAxiosPublic from '../hooks/useAxiosPublic';
 import useStoreInfo from '../hooks/useStoreInfo';
-import toast, { Toaster } from 'react-hot-toast';
 import { UserContext } from '../context/AuthProvider';
 import LoaderSpinner from './LoaderSpinner';
 import { framer } from 'framer-plugin';
 import Select from 'react-select'
 import countryList from 'react-select-country-list'
+import BottomBar from './BottomBar';
 
 const CreateStore = () => {
 
@@ -18,7 +18,7 @@ const CreateStore = () => {
     const [isStoreCreating, setIsStoreCreating] = useState(false);
     const [location, setLocation] = useState('')
 
-    const { refetchStore } = useStoreInfo();
+    const { refetchStore, selectNewStore } = useStoreInfo();
 
     const { user } = useContext(UserContext)
     const axiosPublic = useAxiosPublic();
@@ -42,14 +42,15 @@ const CreateStore = () => {
             });
         }
         axiosPublic.post("/store", storeData)
-            .then(() => {
+            .then((res) => {
                 refetchStore();
+                selectNewStore(res.data);
                 framer.notify("Store Created!", {
                     durationMs: 3000,
                     variant: "success",
                 })
                 setIsStoreCreating(false);
-                navigate("/")
+                navigate("/remix");
 
             }).catch(error => {
                 framer.notify(error.message, {
@@ -65,9 +66,9 @@ const CreateStore = () => {
     const options = useMemo(() => countryList().getData(), [])
 
 
-    return <div className='px-5'>
+    return <div>
         {/* Top bar */}
-        <div className="flex w-full justify-between items-center border-b pb-1">
+        <div className="flex w-full justify-between items-center border-b pb-1 px-5">
             <h3 className="text-center font-semibold text-2xl ">Create Store</h3>
             <div>
                 <UserAvatar />
@@ -96,9 +97,9 @@ const CreateStore = () => {
 
         </form>
 
-        <Toaster />
 
 
+        <BottomBar />
 
     </div>
 }
