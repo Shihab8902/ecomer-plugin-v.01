@@ -5,10 +5,12 @@ import { useNavigate } from "react-router-dom";
 
 
 
+
 const useStoreInfo = () => {
     const [currentStore, setCurrentStore] = useState<object>({});
 
     const navigate = useNavigate();
+
 
 
     const getSavedStore = (stores) => {
@@ -25,6 +27,7 @@ const useStoreInfo = () => {
 
     const selectNewStore = (store) => {
         localStorage.setItem("currentStore", store?._id);
+
         setCurrentStore(store);
         navigate("/");
     }

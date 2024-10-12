@@ -5,6 +5,7 @@ import LoaderSpinner from "./LoaderSpinner";
 import { useState } from "react";
 import useStoreInfo from "../hooks/useStoreInfo";
 import BottomBar from "./BottomBar";
+import TopBar from "./TopBar";
 
 interface Order {
     _id: string;
@@ -30,13 +31,7 @@ export const OrderTable = () => {
 
     return <div className="mb-[70px]">
         {/* Top bar */}
-        <div className="flex justify-between flex-wrap  items-center border-b pb-1 px-5">
-            <h3 className="text-center font-semibold text-2xl">Recent Orders</h3>
-            <div className="flex items-center gap-5">
-
-                <UserAvatar />
-            </div>
-        </div>
+        <TopBar title="Recent Orders" />
 
         {/* Filter */}
         <div className="flex justify-end mt-5 px-5">

@@ -12,6 +12,7 @@ import useOrderInfo from "../hooks/useOrderInfo";
 
 
 
+
 const UserAvatar = () => {
     const { user, logOut } = useContext(UserContext);
     const [isOpen, setIsOpen] = useState(false);
@@ -19,6 +20,7 @@ const UserAvatar = () => {
 
     const navigate = useNavigate();
     const { currentStore, store, selectNewStore } = useStoreInfo();
+
     const { refetchOrders } = useOrderInfo({ filter: "All", currentStore: currentStore });
 
 

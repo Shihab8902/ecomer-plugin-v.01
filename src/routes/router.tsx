@@ -10,6 +10,7 @@ import ManageOrder from "../pages/ManageOrder";
 import CreateStore from "../components/CreateStore";
 import PaymentMethods from "../pages/PaymentMethods";
 import RemixTemplate from "../pages/RemixTemplate";
+import Tutorial from "../pages/Tutorial";
 
 export const router = createBrowserRouter([
     {
@@ -64,6 +65,13 @@ export const router = createBrowserRouter([
                 path: "/remix",
                 element: <PrivateRoute>
                     <RemixTemplate />
+                </PrivateRoute>
+            },
+
+            {
+                path: "/tutorial",
+                element: <PrivateRoute>
+                    <Tutorial />
                 </PrivateRoute>
             }
 
