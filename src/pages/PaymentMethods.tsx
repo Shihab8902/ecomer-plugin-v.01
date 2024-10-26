@@ -9,6 +9,7 @@ import useAxiosPublic from "../hooks/useAxiosPublic";
 import { framer } from "framer-plugin";
 import toast from "react-hot-toast";
 import BottomBar from "../components/BottomBar";
+import { IoIosMail } from "react-icons/io";
 
 
 const PaymentMethods = () => {
@@ -481,11 +482,7 @@ const PaymentMethods = () => {
 
 
 
-
-
-
-
-
+        <p className="text-center font-medium mt-5 text-sm flex justify-center items-center gap-1"> <IoIosMail className="text-2xl" /> <Link to="/payments/request">Request Payment Method</Link></p>
 
 
 

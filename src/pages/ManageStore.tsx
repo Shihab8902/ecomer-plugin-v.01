@@ -48,9 +48,10 @@ const ManageStore = () => {
         e.preventDefault();
         setIsStoreUpdating(true)
         const storeName = e.target.storeName.value;
+        const storeCurrency = e.target.storeCurrency.value;
 
 
-        axiosPublic.put(`/store?id=${store?._id}`, { storeName, location })
+        axiosPublic.put(`/store?id=${store?._id}`, { storeName, location, storeCurrency })
             .then(res => {
                 if (res.data) {
                     refetchStore();
@@ -95,23 +96,11 @@ const ManageStore = () => {
         {/* Manage store form */}
         {
             storeLoading ? <LoaderSpinner shapeHeight="40" shapeWidth="40" shapeColor="#6E717D" /> :
-                <form onSubmit={handleFormSubmit} className="my-5 max-w-96 mx-auto border p-5 rounded-lg" >
-
-                    {/* Store name */}
-                    <div>
-                        <label className="block text-sm mb-1 font-medium" htmlFor="name">Store Name</label>
-                        <input className="w-full p-3 rounded-md mb-2  h-10 " type="text" name="storeName" id="storeName" defaultValue={store?.storeName} placeholder="Enter store name" required />
-                    </div>
-
-                    {/* Store location */}
-                    <div className='mt-3'>
-                        <label className="block text-sm mb-1 font-medium" htmlFor="location">Business Location</label>
-                        <Select options={options} className='cursor-pointer rounded-md' defaultValue={location} value={location} onChange={(value) => setLocation(value)} />
-                    </div>
+                <div>
 
 
                     {/* Store id */}
-                    <div className="mt-3">
+                    <div className="mt-5  max-w-96 mx-auto border p-3 rounded-lg">
                         <label className="block text-sm mb-1 font-medium" htmlFor="storeId">Store ID</label>
                         <div className="w-full rounded-md p-3 mb-2 border text-xs flex justify-between items-center border-gray-100 ">
                             {store?.storeId} <span onClick={handleStoreIdCopy} title='Copy Store ID' className='cursor-pointer'><FaCopy /></span>
@@ -120,14 +109,35 @@ const ManageStore = () => {
 
 
 
+                    <form onSubmit={handleFormSubmit} className="my-5 max-w-96 mx-auto border p-5 rounded-lg" >
 
-                    <button type="submit" disabled={isStoreUpdating} className="w-full disabled:bg-[#232327] bg-[#232327] h-10 p-2 hover:bg-black text-white flex items-center justify-center gap-2 mt-5">
-                        {
-                            isStoreUpdating ? <><span>Saving</span> <LoaderSpinner shapeHeight='15' shapeWidth='15' shapeColor='#fff' /></> : "Save"
-                        }
-                    </button>
+                        {/* Store name */}
+                        <div>
+                            <label className="block text-sm mb-1 font-medium" htmlFor="name">Store Name</label>
+                            <input className="w-full p-3 rounded-md mb-2  h-10 " type="text" name="storeName" id="storeName" defaultValue={store?.storeName} placeholder="Enter store name" required />
+                        </div>
 
-                </form>
+                        {/* Store location */}
+                        <div className='mt-3'>
+                            <label className="block text-sm mb-1 font-medium" htmlFor="location">Business Location</label>
+                            <Select options={options} className='cursor-pointer rounded-md' defaultValue={location} value={location} onChange={(value) => setLocation(value)} />
+                        </div>
+
+                        {/* Store name */}
+                        <div className="mt-3">
+                            <label className="block text-sm mb-1 font-medium" htmlFor="currency">Store Currency</label>
+                            <input className="w-full p-3 rounded-md mb-2  h-10 " type="text" name="storeCurrency" id="storeCurrency" defaultValue={store?.storeCurrency} placeholder="Enter store currency" required />
+                        </div>
+
+
+                        <button type="submit" disabled={isStoreUpdating} className="w-full disabled:bg-[#232327] bg-[#232327] h-10 p-2 hover:bg-black text-white flex items-center justify-center gap-2 mt-5">
+                            {
+                                isStoreUpdating ? <><span>Saving</span> <LoaderSpinner shapeHeight='15' shapeWidth='15' shapeColor='#fff' /></> : "Save"
+                            }
+                        </button>
+
+                    </form>
+                </div>
         }
 
 

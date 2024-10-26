@@ -1,5 +1,4 @@
 import useOrderInfo from "../hooks/useOrderInfo";
-import UserAvatar from "./UserAvatar";
 import { useNavigate } from "react-router-dom";
 import LoaderSpinner from "./LoaderSpinner";
 import { useState } from "react";
@@ -81,7 +80,7 @@ export const OrderTable = () => {
                                         }</td>
 
                                         <td className="text-[#6E717D] text-sm py-3"> {order?.paymentMethod}</td>
-                                        <td className="text-[#6E717D] text-sm py-3"> ${(order.subtotal / 100).toFixed(2)}</td>
+                                        <td className="text-[#6E717D] text-sm py-3"> {currentStore?.storeCurrency}{(order.subtotal / 100).toFixed(2)}</td>
                                         <td className="text-[#6E717D] text-sm py-3 text-end"> Details</td>
 
                                     </tr>

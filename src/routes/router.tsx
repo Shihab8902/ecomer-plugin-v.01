@@ -11,6 +11,7 @@ import CreateStore from "../components/CreateStore";
 import PaymentMethods from "../pages/PaymentMethods";
 import RemixTemplate from "../pages/RemixTemplate";
 import Tutorial from "../pages/Tutorial";
+import PaymentRequest from "../pages/PaymentRequest";
 
 export const router = createBrowserRouter([
     {
@@ -72,6 +73,12 @@ export const router = createBrowserRouter([
                 path: "/tutorial",
                 element: <PrivateRoute>
                     <Tutorial />
+                </PrivateRoute>
+            },
+            {
+                path: "/payments/request",
+                element: <PrivateRoute>
+                    <PaymentRequest />
                 </PrivateRoute>
             }
 

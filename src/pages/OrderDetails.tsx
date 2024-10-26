@@ -4,11 +4,13 @@ import UserAvatar from "../components/UserAvatar";
 import moment from "moment";
 import { CiEdit } from "react-icons/ci";
 import BottomBar from "../components/BottomBar";
+import useStoreInfo from "../hooks/useStoreInfo";
 
 
 const OrderDetails = () => {
     const { state } = useLocation();
     const navigate = useNavigate();
+    const { currentStore } = useStoreInfo();
 
     const { orderNumber, orderedAt, status: orderStatus, exp_deliver, paymentMethod, shipping_details, products, subtotal } = state;
 
@@ -125,7 +127,7 @@ const OrderDetails = () => {
                             </div>
 
                             <div>
-                                <p className="text-[#6E717D] text-base leading-6 font-semibold ">${product.price}</p>
+                                <p className="text-[#6E717D] text-base leading-6 font-semibold ">{currentStore?.storeCurrency}{product.price}</p>
 
 
                             </div>
@@ -142,7 +144,7 @@ const OrderDetails = () => {
         {/* Subtotal */}
         <div className="mt-1 flex justify-between items-center px-5">
             <h5 className=" font-bold leading-6 text-base">Subtotal: </h5>
-            <p className=" font-bold leading-6 text-base">${(subtotal / 100).toFixed(2)}</p>
+            <p className=" font-bold leading-6 text-base">{currentStore?.storeCurrency}{(subtotal / 100).toFixed(2)}</p>
         </div>
 
         <BottomBar />
