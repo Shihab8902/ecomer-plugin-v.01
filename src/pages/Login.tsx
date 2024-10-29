@@ -1,8 +1,9 @@
 import { useContext, useEffect, useState } from "react";
 import { FaGoogle } from "react-icons/fa";
 import { UserContext } from "../context/AuthProvider";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { framer } from "framer-plugin";
+import useTheme from "../hooks/useTheme";
 
 const Login = () => {
 
@@ -11,26 +12,7 @@ const Login = () => {
 
     const { handleLoginWithGoogle } = useContext(UserContext);
 
-    const [theme, setTheme] = useState<string | undefined>("");
-
-    //Get current theme
-    useEffect(() => {
-        const updateSubtotalFromStorage = () => {
-            const currentTheme = document.body.dataset.framerTheme;
-            setTheme(currentTheme)
-        }
-
-
-        updateSubtotalFromStorage()
-
-        const pollingInterval = setInterval(() => {
-            updateSubtotalFromStorage()
-        }, 100) // Update every 500ms
-
-        return () => {
-            clearInterval(pollingInterval)
-        }
-    }, [])
+    const { theme } = useTheme();
 
 
     const handleLogin = () => {
@@ -54,12 +36,18 @@ const Login = () => {
 
 
 
-    return <main className="w-full  h-screen flex justify-center items-center ">
+    return <main className={`w-full h-screen flex justify-center px-5 items-center bg-[#F1F1F1]`}>
         {/* Login with google */}
-        <div className={`w-fit px-8 py-5 rounded-lg shadow-lg ${theme === "dark" ? "bg-black" : "bg-white"} shadow-[#00000027]`}>
-            <img className="w-8 h-8 mx-auto" src="logo.png" alt="Ecomer" />
-            <h1 className="text-center text-[20px]  my-3 font-bold">Welcome to Ecomer</h1>
-            <button onClick={handleLogin} className="w-full h-fit px-10 py-[10px] bg-[#232327] text-sm mt-4 text-white hover:bg-black flex items-center gap-2"><span><FaGoogle className="text-lg" /></span>Continue with Google</button>
+        <div className={`w-[335px] max-w-[335px] px-4 py-6 rounded-lg shadow-lg bg-white`}>
+            <img className="w-12 h-12 mx-auto" src="logo.png" alt="Ecomer" />
+            <h1 className="text-center text-[20px] text-[#232327] my-5 font-semibold">Welcome to eComer</h1>
+            <button onClick={handleLogin} className={` bg-[#232327] hover:bg-black text-white w-full h-fit leading-[150%] text-base font-semibold mt-4 py-3 rounded-md  flex items-center justify-center gap-2 `}><span><FaGoogle className="text-base" /></span>Continue with Google</button>
+
+            <div className="mt-5">
+                <p className="text-sm font-normal text-[#696969]">
+                    <span className="font-medium text-[#232327] ">Note: </span>Email us at <Link className="underline text-[#232327]" to="mailto:hello@framax.co">hello@framax.co</Link> if you are facing any issues with login.
+                </p>
+            </div>
         </div>
 
 

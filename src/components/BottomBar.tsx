@@ -1,17 +1,17 @@
-import { Link } from "react-router-dom"
-import { MdPayments } from "react-icons/md";
-import { IoSettingsSharp } from "react-icons/io5";
-import { IoIosHome } from "react-icons/io";
+import { NavLink } from "react-router-dom"
+import { LuFileText } from "react-icons/lu";
+import { FiHome } from "react-icons/fi";
+import { MdOutlinePayment, MdOutlineSettings } from "react-icons/md";
 
 
 const BottomBar = () => {
     return (
-        <nav className="w-full z-50 h-14 fixed bottom-0 bg-[#232327] text-white flex flex-col items-center justify-center">
-            <ul className="p-1 flex items-center justify-evenly w-full">
-                <li><Link className="flex items-center flex-col cursor-pointer" to="/"> <IoIosHome className="text-2xl" /> Home</Link></li>
-                <li><Link className="flex items-center flex-col cursor-pointer" to="/store/manage"> <IoSettingsSharp className="text-2xl" /> General</Link></li>
-                <li><Link className="flex items-center flex-col cursor-pointer" to="/store/payments"> <MdPayments className="text-2xl" /> Payments</Link></li>
-
+        <nav className="w-full z-50 px-5 py-3 fixed bottom-0 bg-[#232327] text-white flex flex-col items-center justify-center">
+            <ul className="p-1 flex items-center justify-between w-full">
+                <li><NavLink className="flex items-center font-normal text-xs leading-[160%] opacity-60 flex-col cursor-pointer" to="/"> <FiHome className="text-2xl" /> Home</NavLink></li>
+                <li><NavLink className="flex items-center font-normal text-xs leading-[160%] opacity-60 flex-col cursor-pointer" to="/orders"> <LuFileText className="text-2xl" /> Orders</NavLink></li>
+                <li><NavLink className="flex items-center font-normal text-xs leading-[160%] opacity-60 flex-col cursor-pointer" to="/store/manage"> < MdOutlineSettings className="text-2xl" /> Settings</NavLink></li>
+                <li><NavLink className="flex items-center font-normal text-xs leading-[160%] opacity-60 flex-col cursor-pointer" to="/store/payments"> < MdOutlinePayment className="text-2xl" /> Payment</NavLink></li>
             </ul>
         </nav>
     )

@@ -1,7 +1,7 @@
 import { useContext } from "react";
-import Dashboard from "./Dashboard";
 import Login from "./Login";
 import { UserContext } from "../context/AuthProvider";
+import Tutorial from "./Tutorial";
 
 
 const Home = () => {
@@ -11,7 +11,7 @@ const Home = () => {
 
     return <>
         {
-            user ? <Dashboard /> : <Login />
+            user ? <Tutorial /> : <Login />
         }
     </>
 }

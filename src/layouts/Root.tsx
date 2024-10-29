@@ -2,9 +2,11 @@ import { framer } from "framer-plugin"
 import { Outlet } from "react-router-dom"
 
 framer.showUI({
-    position: "center",
-    height: 400,
-    width: 600,
+    position: "top left",
+    height: 600,
+    width: 375,
+    // maxWidth: 475,
+    maxWidth: 375,
     resizable: true
 })
 
