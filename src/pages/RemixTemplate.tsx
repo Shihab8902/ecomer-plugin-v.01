@@ -1,45 +1,30 @@
 import { Link, useNavigate } from "react-router-dom"
-import BottomBar from "../components/BottomBar"
-import UserAvatar from "../components/UserAvatar"
+import TopBar from "../components/TopBar";
+
 
 
 const RemixTemplate = () => {
 
     const navigate = useNavigate();
 
-
-
-    return <main className="mb-16">
+    return <main >
         {/* Top bar */}
-        <div className="flex w-full justify-between items-center border-b pb-1 px-5">
-            <h3 className="text-center font-semibold text-2xl ">Remix Template</h3>
-            <div>
-                <UserAvatar />
-            </div>
-        </div>
+        <TopBar title="Remix Template" showIcon={false} alternativeAvatar={false} />
 
-        {/* Content */}
-        <div className="w-full mt-10 flex flex-col justify-center items-center ">
-
-            <div className="p-3 w-fit rounded-lg shadow-xl flex gap-6 flex-col">
-                <img className="w-56" src="remix.png" alt="ECommerce Template Preview Screen" />
-                {/* Action buttons */}
-                <div className="w-full flex items-center flex-col h-full justify-end">
-                    <p className="mt-3 text-center mb-4">Remix our E-commerce template <br /> to get started.</p>
-                    <Link to="https://framer.com/projects/new?duplicate=y7nKoZJCd7roMdEXiGxM" target="_blank"><button onClick={() => navigate("/tutorial")} className="w-56 framer-button-primary h-8">Remix Template</button></Link>
-                    <p className="mt-3 text-center text-[10px] ">Already have the template? <Link className="font-semibold hover:underline" to="/">Return to Home</Link></p>
+        <div className="px-5 pb-3  mt-20  flex min-h-[77vh] w-full justify-center items-center flex-col gap-5 ">
+            <div className="px-5 py-6 bg-white w-full rounded-lg">
+                <h3 className="text-[#232327] text-base font-semibold mb-5">Remix our E-commerce template to get started</h3>
+                <div className="bg-[#F6F6F6] rounded-[4px] p-3 pb-0">
+                    <div className="h-[324px] w-full bg-white border-t border-l border-r border-[#EAEAEA] rounded-t-[4px] ">
+                        <img className="w-full h-full rounded-t-[4px]" src="remix.png" alt="Template Preview" />
+                    </div>
                 </div>
+                <Link to="https://framer.com/projects/new?duplicate=y7nKoZJCd7roMdEXiGxM" target="_blank">  <button onClick={() => navigate("/")} className="mt-5 rounded-md w-full hover:bg-black bg-[#232327] text-white font-semibold text-base h-12">Remix Template</button></Link>
+                <p className="text-[#696969] mt-3 text-sm">Already have the template? <Link className="font-medium text-[#232327] hover:underline" to="/">Return to home</Link></p>
             </div>
-
-
-
-
-
         </div>
 
 
-        {/* Bottom bar */}
-        <BottomBar />
     </main>
 }
 

@@ -25,7 +25,7 @@ const UserAvatar = () => {
 
 
 
-    const theme = document.body.dataset.framerTheme;
+
 
 
     const togglePopup = () => {

@@ -18,7 +18,7 @@ const CreateStore = () => {
     const [isStoreCreating, setIsStoreCreating] = useState(false);
     const [location, setLocation] = useState('')
 
-    const { refetchStore, selectNewStore } = useStoreInfo();
+    const { refetchStore, selectNewStore, currentStore } = useStoreInfo();
 
     const { user } = useContext(UserContext)
     const axiosPublic = useAxiosPublic();
@@ -29,9 +29,11 @@ const CreateStore = () => {
         e.preventDefault();
         setIsStoreCreating(true)
         const storeName = e.target?.storeName?.value;
+        const storeCurrency = e.target.storeCurrency.value;
         const storeData = {
             storeName,
             location,
+            storeCurrency,
             admin: user.email
         }
         if (!location) {
@@ -66,11 +68,11 @@ const CreateStore = () => {
     const options = useMemo(() => countryList().getData(), [])
 
 
-    return <div className='mt-[63px] mb-[72px] flex min-h-[77vh] w-full flex-col items-center justify-center gap-5 bg-[#F1F1F1]'>
+    return <div className={`mt-[63px] mb-[72px] flex min-h-[77vh] w-full flex-col items-center justify-center gap-5 bg-[#F1F1F1]`}>
         {/* Top bar */}
-        <TopBar title='Create store' showIcon={false} />
+        <TopBar title='Create store' showIcon={false} alternativeAvatar={!currentStore} />
 
-        <div className='w-full px-5'>
+        <div className='w-full px-5 bg-[#F1F1F1]'>
             <form onSubmit={handleFormSubmit} className="my-5 w-full mx-auto bg-white px-4 py-6 rounded-lg" >
 
                 <h3 className='text-center text-xl font-semibold text-[#232327] mb-5'>Create your store</h3>
@@ -101,7 +103,9 @@ const CreateStore = () => {
 
 
 
-        <BottomBar />
+        {
+            currentStore && <BottomBar />
+        }
 
     </div>
 }

@@ -24,13 +24,9 @@ export const OrderTable = () => {
     const { orders, ordersLoading } = useOrderInfo({ filter: filterValue, currentStore: currentStore });
 
 
-
-
-
-
     return <div className="mb-[70px]">
         {/* Top bar */}
-        <TopBar title="Recent Orders" />
+        <TopBar title="Recent Orders" showIcon={false} alternativeAvatar={false} />
 
         {/* Filter */}
         <div className="flex justify-end mt-5 px-5">
@@ -87,14 +83,6 @@ export const OrderTable = () => {
                                 })
                             }
                         </tbody>
-
-
-
-
-
-
-
-
 
 
                     </table>

@@ -32,7 +32,7 @@ const Tutorial = () => {
 
 
     return <div>
-        <TopBar title="Setup guide" showIcon={false} />
+        <TopBar title="Setup guide" showIcon={false} alternativeAvatar={false} />
 
         {/* Content */}
         <div className={`px-5 mt-[63px] mb-[72px] flex min-h-[77vh] w-full flex-col gap-5 bg-[#F1F1F1]`}>

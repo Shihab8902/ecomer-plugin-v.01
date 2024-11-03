@@ -10,6 +10,7 @@ import { framer } from "framer-plugin";
 import toast from "react-hot-toast";
 import BottomBar from "../components/BottomBar";
 import { IoIosMail } from "react-icons/io";
+import TopBar from "../components/TopBar";
 
 
 const PaymentMethods = () => {
@@ -263,21 +264,13 @@ const PaymentMethods = () => {
 
 
 
-    return <main className="mb-16">
+    return <main className={`mt-[63px] mb-[72px]  min-h-[77vh] w-full  `}>
         {/* Top bar */}
-        <div className="flex w-full justify-between items-center border-b pb-1 px-5">
-            <div className="flex items-center gap-2">
-
-                <h3 className="text-center font-semibold text-2xl ">Payment Methods</h3>
-            </div>
-            <div>
-                <UserAvatar />
-            </div>
-        </div>
+        <TopBar title="Payment Methods" alternativeAvatar={false} showIcon={false} />
 
 
         {/* Contents */}
-        <div className="my-5 max-w-96 mx-auto border p-5 rounded-lg">
+        <div className="bg-white w-full border p-5 rounded-lg">
 
             {/* Cash on delivery */}
             <div >
