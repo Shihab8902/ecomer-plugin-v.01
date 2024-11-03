@@ -4,14 +4,14 @@ import { useNavigate } from 'react-router-dom';
 import useAxiosPublic from '../hooks/useAxiosPublic';
 import useStoreInfo from '../hooks/useStoreInfo';
 import { UserContext } from '../context/AuthProvider';
-import LoaderSpinner from './LoaderSpinner';
 import { framer } from 'framer-plugin';
 import Select from 'react-select'
 import countryList from 'react-select-country-list'
-import BottomBar from './BottomBar';
-import TopBar from './TopBar';
+import LoaderSpinner from '../components/LoaderSpinner';
+import toast, { Toaster } from 'react-hot-toast';
 
-const CreateStore = () => {
+
+const InitialCreateStore = () => {
 
     const navigate = useNavigate();
 
@@ -19,6 +19,7 @@ const CreateStore = () => {
     const [location, setLocation] = useState('')
 
     const { refetchStore, selectNewStore } = useStoreInfo();
+    const { logOut } = useContext(UserContext);
 
     const { user } = useContext(UserContext)
     const axiosPublic = useAxiosPublic();
@@ -52,7 +53,7 @@ const CreateStore = () => {
                     variant: "success",
                 })
                 setIsStoreCreating(false);
-                navigate("/remix");
+                navigate("/");
 
             }).catch(error => {
                 framer.notify(error.message, {
@@ -64,13 +65,30 @@ const CreateStore = () => {
 
     }
 
+    const handleLogOut = () => {
+        toast((t) => (
+
+            <span >
+                <span className="text-center font-semibold w-ull block">Are you sure want to Logout?</span>
+                <button className="bg-[#E93725] text-white mt-3 hover:bg-[#c82a1c]" onClick={() =>
+                    logOut()
+                        .then(() => {
+                            navigate("/")
+                            toast.dismiss(t.id)
+                        })
+                }>
+                    Confirm
+                </button>
+            </span>
+        ), { position: "top-center" });
+    }
+
     //Country selection
     const options = useMemo(() => countryList().getData(), [])
 
 
     return <div className={`mt-[63px] mb-[72px] flex min-h-[77vh] w-full flex-col items-center justify-center gap-5 bg-[#F1F1F1]`}>
-        {/* Top bar */}
-        <TopBar title='Create store' showIcon={false} />
+
 
         <div className='w-full px-5 bg-[#F1F1F1]'>
             <form onSubmit={handleFormSubmit} className="my-5 w-full mx-auto bg-white px-4 py-6 rounded-lg" >
@@ -91,23 +109,24 @@ const CreateStore = () => {
                     <input className="w-full px-3 py-[14px] rounded-md  bg-[#F6F6F6] text-sm placeholder:text-[#696969]  h-12 " type="text" name="storeCurrency" id="storeCurrency" placeholder="Enter currency" defaultValue="$" required />
                 </div>
 
-                <button type="submit" disabled={isStoreCreating} className="w-full focus:bg-[#232327] disabled:bg-[#232327] bg-[#232327] h-12 p-2 hover:bg-black text-base  rounded-md text-white flex items-center justify-center gap-2 mt-5">
-                    {
-                        isStoreCreating ? <><span>Creating</span> <LoaderSpinner shapeHeight='15' shapeWidth='15' shapeColor='#fff' /></> : "Create Store"
-                    }
+                <div className="mt-3 flex gap-2 w-full justify-end">
+                    <button onClick={handleLogOut} type="button" className="w-[90px]  focus:bg-[#E93725]  bg-[#E93725]  h-8 p-2 hover:bg-red-600 text-xs  rounded-md text-white  flex items-center justify-center gap-2 ">
+                        Logout
+                    </button>
 
-                </button>
+                    <button type="submit" disabled={isStoreCreating} className="w-[90px]  focus:bg-[#232327] disabled:bg-[#232327] bg-[#232327]  h-8 p-2 hover:bg-black text-xs  rounded-md text-white  flex items-center justify-center gap-2 ">
+                        {
+                            isStoreCreating ? <><span>Creating</span> <LoaderSpinner shapeHeight='15' shapeWidth='15' shapeColor='#fff' /></> : "Create Store"
+                        }
+                    </button>
+
+                </div>
 
             </form>
         </div>
 
-
-
-
-        <BottomBar />
-
-
+        <Toaster />
     </div>
 }
 
-export default CreateStore
+export default InitialCreateStore

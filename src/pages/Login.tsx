@@ -1,18 +1,15 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext } from "react";
 import { FaGoogle } from "react-icons/fa";
 import { UserContext } from "../context/AuthProvider";
 import { Link, useNavigate } from "react-router-dom";
 import { framer } from "framer-plugin";
-import useTheme from "../hooks/useTheme";
+
 
 const Login = () => {
 
     const navigate = useNavigate();
-
-
     const { handleLoginWithGoogle } = useContext(UserContext);
 
-    const { theme } = useTheme();
 
 
     const handleLogin = () => {
@@ -23,7 +20,7 @@ const Login = () => {
                         durationMs: 3000,
                         variant: "success",
                     })
-                    navigate("/");
+                    navigate("/dashboard");
                 }
             })
             .catch((error: object | null) => {

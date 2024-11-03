@@ -87,7 +87,7 @@ const UserAvatar = () => {
 
             <div
                 ref={popupRef}
-                className={`absolute z-50 bg-white right-0 mt-2 w-64  shadow-lg p-5 rounded-md transition-opacity duration-200 ease-in-out ${isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+                className={`absolute z-50 bg-white right-0 mt-2 w-64 shadow-2xl  p-3 rounded-md transition-opacity duration-200 ease-in-out ${isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
                     }`}
                 style={{ transition: "opacity 200ms ease-in-out" }}
             >
@@ -95,15 +95,16 @@ const UserAvatar = () => {
 
                 {/* Display stores */}
                 <div className=" max-h-48 overflow-auto flex flex-col gap-1">
+                    <p className="text-xs font-medium text-[#696969]  leading-[18px] mb-2">Stores</p>
                     {
                         store && store?.map(store => {
                             return <div onClick={() => {
                                 selectNewStore(store)
 
-                            }} key={store?._id} className={`w-full flex  justify-between items-center border ${currentStore === store && " bg-gray-100 cursor-default"}  cursor-pointer p-1 rounded `}>
+                            }} key={store?._id} className={`w-full flex  justify-between items-center border ${currentStore === store && " bg-[#F5F5F5] cursor-default"}  cursor-pointer p-1 rounded-md border border-[#0000000D] `}>
                                 <div className="flex items-center gap-1">
-                                    <Avatar name={store?.storeName} size="24" round="5px" color="#000" />
-                                    <p className="text-[#696969]">{store?.storeName}</p>
+                                    <Avatar name={store?.storeName} size="24" round="6px" color="#232327" />
+                                    <p className="text-[#696969] text-xs leading-[150%]">{store?.storeName}</p>
                                 </div>
                                 {
                                     currentStore === store && <span className="text-xl cursor-pointer" onClick={(e) => {
@@ -119,22 +120,22 @@ const UserAvatar = () => {
                 </div>
 
                 {/* New store create button */}
-                <div className="mt-5">
-                    <button onClick={() => navigate("/store/create")} className="flex items-center justify-center gap-2 w-full rounded-md bg-[#232327] text-white hover:bg-black"><LuPlus /> Create Store</button>
+                <div className="mt-3">
+                    <button onClick={() => navigate("/store/create/new")} className="w-full py-[6px] h-fit hover:bg-white flex items-center justify-center text-xs gap-1 rounded-[4px] create-button font-medium text-[#232327] leading-[150%]"><LuPlus className="text-sm" /> Create Store</button>
                 </div>
 
-                <div className="framer-divider bg-gray-200 my-5" />
+                <div className="framer-divider bg-gray-200 mt-5 mb-3" />
 
                 <div className="max-w-[150px]">
                     {user?.displayName && (
-                        <p className="font-bold text-sm text-[#232327] break-words">
+                        <p className="font-medium leading-[140%] text-sm text-[#232327] break-words">
                             {user?.displayName}
                         </p>
                     )}
-                    <p className="text-[#6E717D] text-xs break-words">{user?.email}</p>
+                    <p className="text-[#696969] text-xs break-words leading-[140%]">{user?.email}</p>
                 </div>
 
-                <button onClick={handleLogOut} className="py-1 w-ful text-left hover:bg-transparent mt-2 text-[#232327] font-semibold rounded-md">
+                <button onClick={handleLogOut} className="py-1 w-full text-left hover:bg-transparent mt-2 text-xs font-medium text-[#E93725] font-semibold rounded-md">
                     Logout
                 </button>
             </div>

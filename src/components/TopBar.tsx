@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import UserAvatar from "./UserAvatar"
 import { HiOutlineArrowLeft } from "react-icons/hi";
-import { MdStorefront } from "react-icons/md";
+
 
 
 const TopBar = ({ title, showIcon, alternativeAvatar }: { title: string, showIcon: boolean, alternativeAvatar: boolean }) => {
@@ -16,14 +16,7 @@ const TopBar = ({ title, showIcon, alternativeAvatar }: { title: string, showIco
             <h3 className="text-center text-[#232327] font-semibold text-lg">{title}</h3>
         </div>
         <div className="flex items-center gap-5">
-            {
-                alternativeAvatar ? <div className="w-[31px] h-[31px] bg-[#000] rounded-md flex justify-center items-center ">
-
-                    <MdStorefront className="text-white text-base" />
-
-                </div>
-                    : <UserAvatar />
-            }
+            <UserAvatar />
         </div>
     </div>
 }

@@ -1,5 +1,3 @@
-
-import UserAvatar from "../components/UserAvatar"
 import { Link, useNavigate } from "react-router-dom"
 import { PiCaretRightBold } from "react-icons/pi";
 import { useState } from "react";

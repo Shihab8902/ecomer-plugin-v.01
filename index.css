@@ -14,11 +14,19 @@ body {
     opacity: 1;
 }
 
+.done-button {
+    border: 1px solid #9DE48B;
+}
+
+.create-button {
+    border: 1px solid black;
+}
+
 /* Scrollbar styles */
 
 ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 5px;
+    height: 5px;
 
 }
 

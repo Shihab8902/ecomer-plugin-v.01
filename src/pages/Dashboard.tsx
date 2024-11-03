@@ -1,61 +1,36 @@
-import CreateStore from "../components/CreateStore"
 import LoaderSpinner from "../components/LoaderSpinner";
-import { OrderTable } from "../components/OrderTable";
-import useOrderInfo from "../hooks/useOrderInfo";
-import useStoreInfo from "../hooks/useStoreInfo"
+import useStoreInfo from "../hooks/useStoreInfo";
 import useTotalOrders from "../hooks/useTotalOrders";
-import Tutorial from "./Tutorial";
-
-
-
-
-
+import { Navigate } from "react-router-dom";
+import InitialCreateStore from "./InitialStoreCreate";
 
 
 const Dashboard = () => {
-
     const { storeLoading, currentStore } = useStoreInfo();
     const { totalOrders } = useTotalOrders();
 
 
-    const { ordersLoading } = useOrderInfo({ filter: "All", currentStore: currentStore });
 
-    {/* Conditional render store creation  */ }
+    // Conditional render for store creation or redirect
     if (!currentStore?.storeId) {
-        return <main >
-
-            {
-                storeLoading ? <LoaderSpinner shapeHeight="40" shapeWidth="40" shapeColor="#6E717D" /> : !currentStore?.storeId && <CreateStore />
-
-            }
-        </main>
+        return (
+            <main>
+                {storeLoading ? (
+                    <LoaderSpinner shapeHeight="40" shapeWidth="40" shapeColor="#6E717D" />
+                ) : (
+                    <InitialCreateStore />
+                )}
+            </main>
+        );
     }
 
-
-    // Conditional Render tutorial page
-    if (totalOrders?.total <= 0) {
-        return <main>
-            <Tutorial />
-        </main>
+    // Redirect to "/orders" if there are orders
+    if (totalOrders?.total > 0) {
+        return <Navigate to="/orders" />
     }
 
+    // Redirect to home if no specific conditions are met
+    return <Navigate to="/" />
+};
 
-
-
-
-
-    {/* Conditional render order information */ }
-    if (currentStore?.storeId) {
-        return <main >
-
-            {
-                ordersLoading ? <LoaderSpinner shapeHeight="40" shapeWidth="40" shapeColor="#6E717D" /> : currentStore?.storeId && <OrderTable />
-            }
-        </main>
-    }
-
-    return;
-
-}
-
-export default Dashboard
+export default Dashboard;

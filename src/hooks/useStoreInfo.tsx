@@ -29,7 +29,7 @@ const useStoreInfo = () => {
         localStorage.setItem("currentStore", store?._id);
 
         setCurrentStore(store);
-        navigate("/");
+        navigate("/orders");
     }
 
 

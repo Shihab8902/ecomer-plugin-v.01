@@ -9,8 +9,9 @@ import OrderDetails from "../pages/OrderDetails";
 import ManageOrder from "../pages/ManageOrder";
 import CreateStore from "../components/CreateStore";
 import PaymentMethods from "../pages/PaymentMethods";
-import RemixTemplate from "../pages/RemixTemplate";
 import PaymentRequest from "../pages/PaymentRequest";
+import { OrderTable } from "../components/OrderTable";
+import Tutorial from "../pages/Tutorial";
 
 export const router = createBrowserRouter([
     {
@@ -38,11 +39,18 @@ export const router = createBrowserRouter([
                 </PrivateRoute>
             },
             {
+                path: "/orders",
+                element: <PrivateRoute>
+                    <OrderTable />
+                </PrivateRoute>
+            },
+            {
                 path: "/order/details",
                 element: <PrivateRoute>
                     <OrderDetails />
                 </PrivateRoute>
             },
+
             {
                 path: "/order/manage",
                 element: <PrivateRoute>
@@ -50,7 +58,7 @@ export const router = createBrowserRouter([
                 </PrivateRoute>
             },
             {
-                path: "/store/create",
+                path: "/store/create/new",
                 element: <PrivateRoute>
                     <CreateStore />
                 </PrivateRoute>
@@ -59,12 +67,6 @@ export const router = createBrowserRouter([
                 path: "/store/payments",
                 element: <PrivateRoute>
                     <PaymentMethods />
-                </PrivateRoute>
-            },
-            {
-                path: "/remix",
-                element: <PrivateRoute>
-                    <RemixTemplate />
                 </PrivateRoute>
             },
             {
