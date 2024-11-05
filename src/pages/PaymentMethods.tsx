@@ -2,13 +2,14 @@ import { Link, useNavigate } from "react-router-dom"
 import { PiCaretRightBold } from "react-icons/pi";
 import { useState } from "react";
 import useStoreInfo from "../hooks/useStoreInfo";
-import { FaEye, FaEyeSlash, FaRegCheckCircle, FaRegEdit } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaRegCheckCircle, FaRegEdit, FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import useAxiosPublic from "../hooks/useAxiosPublic";
 import { framer } from "framer-plugin";
 import toast from "react-hot-toast";
 import BottomBar from "../components/BottomBar";
 import { IoIosMail } from "react-icons/io";
 import TopBar from "../components/TopBar";
+import { MdOutlineModeEditOutline } from "react-icons/md";
 
 
 const PaymentMethods = () => {
@@ -65,7 +66,7 @@ const PaymentMethods = () => {
 
                     <span>
                         <span className="text-center font-semibold w-ull block">Are you sure you want to deactivate the payment method? Related services will stop functioning.</span>
-                        <button className="bg-[#E93725] text-white mt-3 hover:bg-[#c82a1c]" onClick={() => {
+                        <button className="bg-[#E93725] text-white mt-3 h-fit  w-full rounded-[4px] text-sm font-medium px-3 py-[6px] hover:bg-[#c82a1c]" onClick={() => {
                             axiosPublic.put(`/payment/deactivate?id=${store?._id}&method=${method}`)
                                 .then(result => {
                                     if (result.data === "success") {
@@ -86,7 +87,7 @@ const PaymentMethods = () => {
                         </button>
                     </span>
 
-                ), { position: "bottom-center" });
+                ), { position: "top-center" });
 
             }
                 break;
@@ -96,7 +97,7 @@ const PaymentMethods = () => {
 
                     <span>
                         <span className="text-center font-semibold w-ull block">Are you sure you want to deactivate the payment method? Related services will stop functioning.</span>
-                        <button className="bg-[#E93725] text-white mt-3 hover:bg-[#c82a1c]" onClick={() => {
+                        <button className="bg-[#E93725] text-white mt-3 h-fit  w-full rounded-[4px] text-sm font-medium px-3 py-[6px] hover:bg-[#c82a1c]" onClick={() => {
                             axiosPublic.put(`/payment/deactivate?id=${store?._id}&method=${method}`)
                                 .then(result => {
                                     if (result.data === "success") {
@@ -117,7 +118,7 @@ const PaymentMethods = () => {
                         </button>
                     </span>
 
-                ), { position: "bottom-center" });
+                ), { position: "top-center" });
             }
 
                 break;
@@ -259,41 +260,37 @@ const PaymentMethods = () => {
 
 
 
-
-
-
-    return <main className={`mt-[63px] mb-[72px]  min-h-[77vh] w-full  `}>
+    return <main className={`mt-[56px] mb-[72px]  min-h-[77vh] w-full  `}>
         {/* Top bar */}
         <TopBar title="Payment Methods" alternativeAvatar={false} showIcon={false} />
 
 
         {/* Contents */}
-        <div className="bg-white w-full border p-5 rounded-lg">
+        <div className=" w-full  p-5 rounded-lg">
 
             {/* Cash on delivery */}
             <div >
-                <div className=' border-y border-[#D3D3D4] border-collapse cursor-pointer'>
-                    <div onClick={() => setIsCodOpen(!isCodOpen)} className={`flex items-center justify-between  mt-2  h-10 px-3 ${isCodOpen && "border-b"} border-[#D3D3D4]`}>
+                <div className='bg-white cursor-pointer p-4 rounded-[4px]'>
+                    <div onClick={() => setIsCodOpen(!isCodOpen)} className={`flex items-center justify-between  `}>
                         <div className="flex items-center gap-2">
-                            <PiCaretRightBold className={`text-sm ${isCodOpen ? "rotate-90" : "rotate-0"} transition-transform duration-300`} />
-                            <img className='w-10 select-none' src="../../public/cod.svg" alt="Cash on Delivery" />
+                            <PiCaretRightBold className={`text-base text-[#23232780] ${isCodOpen ? "rotate-90" : "rotate-0"} transition-transform duration-300`} />
+                            <p className="text-[#232327] text-base font-medium">Cash on delivery</p>
                         </div>
                         {
-                            store?.allowCod ? <span className="flex items-center gap-1 text-sm text-[#1FAC64]"><FaRegCheckCircle /> <span className="text-xs font-semibold ">Active</span></span>
+                            store?.allowCod ? <span className="flex items-center gap-1 text-sm text-[#38B819]"><FaRegCheckCircle /> <span className="text-xs font-medium ">Active</span></span>
                                 : <button onClick={(e) => {
                                     e.stopPropagation();
                                     handlePaymentMethodActivation("cod");
-                                }} className=" w-fit h-fit px-3 py-1 rounded-md bg-gray-200">Turn on</button>
+                                }} className=" w-fit h-fit px-3 py-[6px] text-xs font-medium rounded-[4px] text-white leading-[18px] hover:bg-black bg-[#232327] focus:bg-[#232327]">Turn on</button>
                         }
                     </div>
 
-                    <div className={`w-full overflow-hidden  ${isCodOpen ? "h-fit max-w-fit" : "h-0"} `}>
-                        <div className="p-3">
-                            <h4 className="uppercase text-xs font-normal">About this payment method</h4>
-                            <p className="mt-2 text-xs font-medium leading-4">Cash on Delivery enables us to collect payment from customers at the time of delivery, ensuring a secure transaction without upfront online payments.</p>
+                    <div className={`w-full overflow-hidden transition-all duration-300 ${isCodOpen ? "max-h-96" : "max-h-0"} `}>
+                        <div >
+                            <p className="mt-2 text-sm font-normal text-[#696969] leading-[20px]">Cash on Delivery enables us to collect payment from customers at the time of delivery, ensuring a secure transaction without upfront online payments.</p>
                             {
-                                store?.allowCod && <div className="w-full flex justify-end mt-5">
-                                    <button onClick={() => handlePaymentMethodDeactivation("cod")} type="button" className="w-20 rounded-md text-white cursor-pointer bg-[#E93725] hover:bg-[#E93725] focus:bg-[#E93725]">Turn off</button>
+                                store?.allowCod && <div className="w-full flex justify-end mt-2">
+                                    <button onClick={() => handlePaymentMethodDeactivation("cod")} type="button" className="w-fit h-fit rounded-[4px] text-white text-sm font-medium px-3 py-[6px] leading-[18px] cursor-pointer bg-[#E93725] hover:bg-[#E93725] focus:bg-[#E93725]">Turn off</button>
                                 </div>
                             }
                         </div>
@@ -306,75 +303,84 @@ const PaymentMethods = () => {
 
 
             {/* Stripe */}
-            <div className="mt-5">
-                <div className=' border-y border-[#D3D3D4] border-collapse cursor-pointer'>
-                    <div onClick={() => setIsStripeOpen(!isStripeOpen)} className={`flex items-center justify-between  mt-2  h-10 px-3 ${isStripeOpen && "border-b"} border-[#D3D3D4]`}>
+            <div className="mt-2">
+                <div className=' bg-white cursor-pointer p-4 rounded-[4px]'>
+                    <div onClick={() => {
+                        setIsStripeOpen(!isStripeOpen);
+                        setIsStripeSecretFieldVisible(false);
+                    }} className={`flex items-center justify-between `}>
                         <div className="flex items-center gap-2">
-                            <PiCaretRightBold className={`text-sm ${isStripeOpen ? "rotate-90" : "rotate-0"} transition-transform duration-300`} />
-                            <img className='w-10 select-none' src="../../public/stripe.png" alt="Stripe" />
+                            <PiCaretRightBold className={`text-base text-[#23232780] ${isStripeOpen ? "rotate-90" : "rotate-0"} transition-transform duration-300`} />
+                            <img className='w-[43px] h-[18px] select-none' src="../../public/Stripe.svg" alt="Stripe" />
                         </div>
                         {
-                            store?.stripeSecret ? <span className="flex items-center gap-1 text-sm text-[#1FAC64]"><FaRegCheckCircle /> <span className="text-xs font-semibold ">Active</span></span>
-                                : <button className=" w-fit h-fit px-3 py-1 rounded-md bg-gray-200">Turn on</button>
+                            store?.stripeSecret ? <span className="flex items-center gap-1 text-sm text-[#38B819]"><FaRegCheckCircle /> <span className="text-xs font-medium ">Active</span></span>
+                                : <button className=" w-fit h-fit px-3 py-[6px] text-xs font-medium rounded-[4px] text-white leading-[18px] hover:bg-black bg-[#232327] focus:bg-[#232327]">Turn on</button>
                         }
                     </div>
 
-                    <div className={`w-full overflow-hidden  ${isStripeOpen ? "h-fit max-w-fit" : "h-0"} `}>
-                        <div className="p-3">
-                            <h4 className="uppercase text-xs font-normal">About this payment method</h4>
-                            <p className="mt-2 text-xs font-medium leading-4">Stripe allows us to accept secure online payments, offering customers a seamless checkout experience with support for various payment methods.</p>
+                    <div className={`w-full overflow-hidden transition-all duration-300  ${isStripeOpen ? "max-h-[500px]" : "max-h-0"} `}>
+                        <div >
+
+                            <p className="mt-2 text-sm font-normal text-[#696969] leading-[20px]">Stripe allows to accept secure online payments, offering customers a seamless checkout experience with support for various payment methods.</p>
 
                             {/* Render Editable Stripe secret */}
                             {
                                 store?.stripeSecret && <>
                                     {/* Stripe Secret */}
-                                    <div className="mt-3">
-                                        <label className="block text-xs mb-1 font-medium" htmlFor="storeName">Stripe Secret Key</label>
-                                        <div className="w-full p-3 border flex justify-between  border-gray-100 ">
-                                            <p className='w-full overflow-x-auto break-words text-xs pr-2'>{formatSecret(store?.stripeSecret)}</p> <span title='Update Stripe Secret' onClick={() => setIsStripeSecretFieldVisible(!isStripeSecretFieldVisible)} className='cursor-pointer'><FaRegEdit className='text-base' /></span>
+                                    <div className="mt-2">
+
+                                        <div className="w-full">
+                                            {
+                                                isStripeSecretFieldVisible ? <div className="w-full ">
+                                                    {/* Render editable stripe secret field */}
+                                                    <div >
+                                                        <label className="block text-sm text-[#232327] leading-[160%]  font-medium" htmlFor="storeName">New Stripe secret key</label>
+                                                        <div className="relative">
+                                                            <input onChange={(e) => setStripeSecret(e.target.value)} className="w-full h-[45px] p-3 bg-[#F6F6F6] rounded-[4px] " type={visiblePassword ? " text" : "password"} name="stripeSecret" id="stripeSecret" placeholder="Enter new Stripe secret key" />
+                                                            <span onClick={() => setVisiblePassword(!visiblePassword)} className="absolute bottom-3 right-3  text-[#696969] cursor-pointer text-xl">{visiblePassword ? <FaRegEye /> : <FaRegEyeSlash />}</span>
+                                                        </div>
+                                                        <div className="w-full flex gap-2 justify-end items-center mt-3">
+                                                            <button type="button" onClick={() => handlePaymentMethodDeactivation("stripe")} className="w-fit h-fit rounded-[4px] text-white text-sm font-medium px-3 py-[6px] leading-[18px] cursor-pointer bg-[#E93725] hover:bg-[#E93725] focus:bg-[#E93725]">Turn off</button>
+                                                            <button onClick={() => handlePaymentMethodActivation("stripe")} className="w-fit h-fit rounded-[4px] text-[#232327] text-xs font-medium px-5 py-[6px] leading-[18px] cursor-pointer bg-[#E5E7EB] hover:bg-[#E5E7EB] focus:bg-[#E5E7EB]">Save</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                    : <div className="w-full">
+                                                        <label className="block text-sm text-[#232327] leading-[160%]  font-medium" htmlFor="storeName">Stripe secret key</label>
+                                                        <div className="w-full flex items-start justify-between">
+                                                            <p className="w-[85%] text-sm text-[#696969] leading-[140%]">{formatSecret(store?.stripeSecret)}</p>
+                                                            <span onClick={() => setIsStripeSecretFieldVisible(!isStripeSecretFieldVisible)} className="text-2xl text-[#232327] block cursor-pointer"><MdOutlineModeEditOutline /></span>
+                                                        </div>
+                                                    </div>
+                                            }
                                         </div>
                                     </div>
 
-                                    {/* Stripe Editable Secret field */}
-                                    {
-                                        isStripeSecretFieldVisible && <>
-                                            <div className="relative mt-3">
-                                                <label className="block text-xs mb-1 font-medium" htmlFor="stripeSecret">New Stripe Secret Key</label>
-                                                <input onChange={(e) => setStripeSecret(e.target.value)} value={stripeSecret} className="w-full p-3 rounded-md  h-10" type={visiblePassword ? "text" : "password"} name="stripeSecret" id="stripeSecret" placeholder="Enter stripe secret" required />
-                                                <span onClick={() => setVisiblePassword(!visiblePassword)} className="absolute bottom-3 right-2 text-base text-gray-400 cursor-pointer">{visiblePassword ? <FaEye /> : <FaEyeSlash />}</span>
-                                            </div>
 
-                                            <button onClick={() => handlePaymentMethodActivation("stripe")} className=" w-full bg-[#232327] mt-2 h-fit px-3 py-2 rounded-md text-white hover:bg-black focus:bg-black">Save</button>
-
-
-                                        </>
-
-                                    }
                                 </>
                             }
 
 
-
                             {
-                                store?.stripeSecret && <div className="w-full flex justify-end mt-5">
-                                    <button type="button" onClick={() => handlePaymentMethodDeactivation("stripe")} className="w-20 rounded-md text-white cursor-pointer bg-[#E93725] hover:bg-[#E93725] focus:bg-[#E93725]">Turn off</button>
+                                store?.stripeSecret && <div className={`w-full flex justify-end mt-3 ${isStripeSecretFieldVisible && "hidden"}`}>
+                                    {!isStripeSecretFieldVisible && <button type="button" onClick={() => handlePaymentMethodDeactivation("stripe")} className="w-fit h-fit rounded-[4px] text-white text-sm font-medium px-3 py-[6px] leading-[18px] cursor-pointer bg-[#E93725] hover:bg-[#E93725] focus:bg-[#E93725]">Turn off</button>}
                                 </div>
                             }
                         </div>
 
                         {/* Input Stripe Credentials */}
                         {
-                            !store?.stripeSecret && <div className="mb-2">
+                            !store?.stripeSecret && <div className="mt-2">
                                 {/* Render stripe secret field */}
-                                <div className="relative  px-3 ">
-                                    <label className="block text-xs mb-1 font-medium" htmlFor="stripeSecret">Stripe Secret Key</label>
-                                    <input onChange={(e) => setStripeSecret(e.target.value)} className="w-full p-3 rounded-md  h-10" type={visiblePassword ? "text" : "password"} name="stripeSecret" id="stripeSecret" placeholder="Enter stripe secret" />
-                                    <span onClick={() => setVisiblePassword(!visiblePassword)} className="absolute bottom-3 right-6 text-base text-gray-400 cursor-pointer">{visiblePassword ? <FaEye /> : <FaEyeSlash />}</span>
+                                <div className="relative">
+                                    <label className="block text-sm text-[#232327] leading-[160%]  font-medium" htmlFor="stripeSecret">Stripe secret key</label>
+                                    <input onChange={(e) => setStripeSecret(e.target.value)} className="w-full h-[45px] p-3 bg-[#F6F6F6] rounded-[4px] " type={visiblePassword ? " text" : "password"} name="stripeSecret" id="stripeSecret" placeholder="Enter stripe secret key" />
+                                    <span onClick={() => setVisiblePassword(!visiblePassword)} className="absolute bottom-3 right-3  text-[#696969] cursor-pointer text-xl">{visiblePassword ? <FaRegEye /> : <FaRegEyeSlash />}</span>
                                 </div>
-                                <p className=" mt-1 text-[#232327] px-3 pb-2  text-[9px]">For retrieving your Stripe Secret, visit the <Link className="font-bold hover:underline" to="https://docs.stripe.com/keys" target='_blank'>Stripe API documentation.</Link></p>
-
-                                <div className="w-full flex px-5 justify-end">
-                                    <button onClick={() => handlePaymentMethodActivation("stripe")} className=" w-fit h-fit px-3 py-1 rounded-md bg-gray-200">Save</button>
+                                <p className="font-normal mt-[2px] leading-[140%] text-xs text-[#696969]">For retrieving your Stripe Secret, visit <Link className="font-medium text-[#232327] hover:underline" to="https://docs.stripe.com/keys" target='_blank'>Stripe API documentation.</Link></p>
+                                <div className="w-full flex  justify-end">
+                                    <button onClick={() => handlePaymentMethodActivation("stripe")} className="w-fit mt-2 h-fit rounded-[4px] text-[#232327] text-xs font-medium px-5 py-[6px] leading-[18px] cursor-pointer bg-[#E5E7EB] hover:bg-[#E5E7EB] focus:bg-[#E5E7EB]">Save</button>
                                 </div>
                             </div>
                         }
