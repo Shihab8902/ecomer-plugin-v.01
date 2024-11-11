@@ -1,19 +1,32 @@
-import { IoIosArrowRoundBack } from "react-icons/io";
 import { useLocation, useNavigate } from "react-router-dom"
-import UserAvatar from "../components/UserAvatar";
 import moment from "moment";
-import { CiEdit } from "react-icons/ci";
+import toast, { Toaster } from 'react-hot-toast';
+import TopBar from "../components/TopBar";
 import BottomBar from "../components/BottomBar";
-import useStoreInfo from "../hooks/useStoreInfo";
+import { useContext, useEffect, useState } from "react";
+import { UserContext } from "../context/AuthProvider";
+import useAxiosPublic from "../hooks/useAxiosPublic";
+import { framer } from "framer-plugin";
+import { MdOutlineModeEditOutline } from "react-icons/md";
+import useGetDataPublic from "../hooks/useGetPublic";
+import LoaderSpinner from "../components/LoaderSpinner";
+
+
 
 
 const OrderDetails = () => {
-    const { state } = useLocation();
-    const navigate = useNavigate();
-    const { currentStore } = useStoreInfo();
+    const { state: reqId } = useLocation();
+    const { user } = useContext(UserContext);
+    const axiosPublic = useAxiosPublic();
 
-    const { orderNumber, orderedAt, status: orderStatus, exp_deliver, paymentMethod, shipping_details, products, subtotal } = state;
 
+    //Fetch order data
+    const { data: orderData, refetch: refetchOrders, isLoading } = useGetDataPublic([reqId, "order"], `/order?id=${reqId}`)
+
+    const { _id, orderNumber, shipping_details, billing_details, status, exp_deliver } = orderData || {};
+
+
+    //Format date
     const formatDate = (dateString: string) => {
         if (dateString === "unknown") {
             return "unknown";
@@ -24,134 +37,249 @@ const OrderDetails = () => {
     };
 
 
-    return <main className="mb-16">
-        {/* Top bar */}
-        <div className="flex w-full justify-between items-center border-b pb-1 flex-wrap px-5">
-            <div className="flex items-center gap-2">
-                <span onClick={() => navigate(-1)}><IoIosArrowRoundBack className="text-2xl cursor-pointer" /></span>
-                <h3 className="text-center font-semibold text-2xl ">Order {orderNumber}</h3>
-            </div>
-            <div className="flex items-center gap-5">
-                <button onClick={() => navigate("/order/manage", { state: state })} className="flex items-center gap-1 w-fit focus:bg-black bg-[#232327] h-[36px] px-3 rounded-md hover:bg-black text-white"> <CiEdit className="text-lg" /> Manage Order</button>
-                <UserAvatar />
-            </div>
-        </div>
+    //Handle timeline status update
+    const setTimelineStatus = async (message: string) => {
+        const data = {
+            newTimelineStatus: {
+                updateBy: user?.displayName,
+                updateDate: moment().format('DD MMM YYYY'),
+                updateTime: moment().format('h:mm A'),
+                message
+            }
+        }
+
+        await axiosPublic.put(`/orders?id=${_id}`, data)
+
+    }
 
 
 
-        {/*  Shipping  and order information */}
-        <div className="flex justify-between flex-wrap px-5">
+    //Handle order status
+    const handleOrderStatusUpdate = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const status = e.target.value;
+        const data = {
+            newStatus: {
+                message: status,
+                date: moment().format('Do MMMM YYYY')
+            }
+        }
 
-            {/* Order information */}
-            <div className="w-full">
-                <h4 className=" font-semibold leading-6 text-base mt-5 mb-2">Order Information: </h4>
-                <ul>
-                    <div className="flex gap-1 flex-wrap">
-                        <li className="text-sm font-semibold  leading-5">Placed On: <span className=" font-medium text-[#6E717D]">{orderedAt}</span>,</li>
-                        <li className="text-sm font-semibold  leading-5 flex items-center gap-1">Fulfillment Status:
-                            <div style={{ color: orderStatus.map(status => status.message)[orderStatus?.length - 1] === "Order Received" ? "#28A745" : orderStatus.map(status => status.message)[orderStatus?.length - 1] === "Preparing Order" ? "#007BFF" : orderStatus.map(status => status?.message)[orderStatus?.length - 1] === "Order Shipped" ? "#ED8C05" : orderStatus.map(status => status?.message)[orderStatus?.length - 1] === "Order Completed" ? "#1FAC64" : "#6E717D" }} className={` text-sm   `}>{
-                                orderStatus?.map(status => status?.message)[orderStatus?.length - 1]
-                            }</div>
-                        </li>
+        axiosPublic.put(`/orders?id=${_id}`, data)
+            .then(async (res) => {
+                if (res.data) {
+                    //update timeline status
+                    await setTimelineStatus(`Marked the delivery status as "${status}"`);
+                    refetchOrders();
+                    framer.notify("Delivery status updated!", {
+                        variant: "success",
+                        durationMs: 3000
+                    })
+                }
+            })
+            .catch(error => {
+                framer.notify(error.message, {
+                    variant: "error",
+                    durationMs: 3000
+                })
+            })
+
+    }
+
+
+    //Handle expected delivery
+    const handleExpDeliveryUpdate = (e: React.ChangeEvent<HTMLSelectElement>) => {
+
+        const data = { exp_deliver: e.target.value }
+
+        axiosPublic.put(`/orders?id=${_id}`, data)
+            .then(async (res) => {
+                if (res.data) {
+                    //Update timeline status
+                    await setTimelineStatus(exp_deliver === "unknown" ? "Assigned an expected delivery date for this order" : "Updated the expected delivery date for this order")
+                    refetchOrders();
+                    framer.notify("Expected delivery date updated!", {
+                        variant: "success",
+                        durationMs: 3000
+                    })
+
+                }
+            })
+    }
+
+
+
+    if (isLoading) {
+        return <LoaderSpinner shapeColor="#6E717D" shapeWidth="40" shapeHeight="40" />
+    }
+
+
+    return <div>
+        {/* Top Bar */}
+        <TopBar title={`Order ${orderNumber}`} showIcon={true} />
+
+
+
+        {/* Content Boxes*/}
+        <div className="w-full mt-[70px] mb-[82px] px-5">
+
+            {/* Customer Details */}
+            <div className="w-full bg-white py-3 px-4 rounded-[4px]">
+                <h3 className="text-[#232327] text-base leading-[140%} font-semibold mb-3">Customer</h3>
+
+                <div className="w-full">
+                    {/* Name */}
+                    <div>
+                        <h4 className="font-medium leading-[140%] text-sm text-[#232327]">Name</h4>
+                        <p className="text-sm text-[#696969] leading-[140%] font-normal">{shipping_details?.name}</p>
                     </div>
-                    <div className="flex gap-1 flex-wrap">
-                        <li className="text-sm font-semibold  leading-5">Expected Delivery: <span className=" font-medium text-[#6E717D]">{formatDate(exp_deliver)}</span>,</li>
-                        <li className="text-sm font-semibold  leading-5">Payment Method: <span className=" font-medium text-[#6E717D]">{paymentMethod}</span></li>
-                    </div>
-                </ul>
-            </div>
 
-            {/* Shipping Information */}
-            <div className="w-full">
-                <h4 className=" font-semibold leading-6 text-base mt-5 mb-2">Shipping Information: </h4>
-                <ul>
-                    <li className="text-sm font-semibold  leading-5">Name:  <span className=" font-medium text-[#6E717D]">{shipping_details?.name}</span></li>
-                    <li className="text-sm font-semibold  leading-5">Email:  <span className=" font-medium text-[#6E717D]">{shipping_details?.email}</span></li>
-                    <li className="text-sm font-semibold flex items-center gap-1 leading-5 flex-wrap">Address:
-                        <ul className="flex items-center gap-1 flex-wrap">
-                            <li className="text-sm font-semibold  leading-5">State: <span className=" font-medium text-[#6E717D]">{shipping_details?.address?.state}</span></li>,
-                            <li className="text-sm font-semibold  leading-5">City: <span className=" font-medium text-[#6E717D]">{shipping_details?.address?.city}</span></li>,
-                            <li className="text-sm font-semibold  leading-5">Country: <span className=" font-medium text-[#6E717D]">{shipping_details?.address?.country}</span></li>,
-                            <li className="text-sm font-semibold  leading-5">Postal Code: <span className=" font-medium text-[#6E717D]">{shipping_details?.address?.postal_code}</span></li>
+                    {/* Contact Information */}
+                    <div className="mt-2">
+                        <h4 className="font-medium leading-[140%] text-sm text-[#232327]">Contact information</h4>
+                        <p className="text-sm text-[#696969] leading-[140%] font-normal">{shipping_details?.email}</p>
+                        <p className="text-sm text-[#696969] leading-[140%] font-normal">{shipping_details?.phone}</p>
+                    </div>
+
+
+                    {/* Billing Information */}
+                    {
+                        billing_details && <div className="mt-2">
+                            <h4 className="font-medium leading-[140%] text-sm text-[#232327]">Billing address</h4>
+
+                            <ul className="flex items-center flex-wrap">
+                                {
+                                    Object.entries(billing_details?.address || {})
+                                        .filter(([key, _]) => key !== 'additionalData')
+                                        .map(([key, value], index, array) => (
+                                            <li key={index} className="text-sm ml-[2px]  text-[#232327] leading-[160%]">
+                                                {key}: <span className="text-[#696969]">
+                                                    {typeof value === 'object' && value !== null
+                                                        ? JSON.stringify(value)
+                                                        : String(value)
+                                                    }
+                                                </span>
+                                                {index !== array.length - 1 && ', '}
+                                            </li>
+                                        ))
+                                }
+                            </ul>
+
+                        </div>
+                    }
+
+                    {/* Shipping Information */}
+                    <div className="mt-2">
+                        <h4 className="font-medium leading-[140%] text-sm text-[#232327]">Shipping address</h4>
+
+                        <ul className="flex items-center flex-wrap">
+                            {
+                                Object.entries(shipping_details?.address || {})
+                                    .filter(([key, _]) => key !== 'additionalData')
+                                    .map(([key, value], index, array) => (
+                                        <li key={index} className="text-sm ml-[2px]  text-[#232327] font-normal leading-[160%]">
+                                            {key}: <span className="text-[#696969]">
+                                                {typeof value === 'object' && value !== null
+                                                    ? JSON.stringify(value)
+                                                    : String(value)
+                                                }
+                                            </span>
+                                            {index !== array.length - 1 && ', '}
+                                        </li>
+                                    ))
+                            }
                         </ul>
-                    </li>
-                    <li className="text-sm font-semibold flex gap-1 leading-5 flex-wrap">Additional:
-                        {
-                            shipping_details?.address?.additionalData
-                                ?.map((data, index) => {
-                                    const [key, value] = Object.entries(data)[0];
-                                    return (
-                                        <span key={index} className="text-sm font-semibold  leading-5">
-                                            {key}: <span className="text-[#6E717D] font-medium">{value}</span>
-                                            {index !== shipping_details?.address?.additionalData.length - 1 && ', '}
-                                        </span>
-                                    );
-                                })
-                        }
-                    </li>
 
-                </ul>
-            </div>
+                    </div>
 
-
-        </div>
-
-
-
-        {/* Order summary */}
-        <h4 className=" font-semibold leading-6 text-base mt-6 mb-4 px-5">Order Summary: </h4>
-
-        <div className="flex flex-col gap-3 px-5">
-            {
-                products?.map(product => {
-                    return <div key={product?.uid}>
-                        <div className="flex justify-between items-center flex-wrap">
-                            <div className="flex items-center gap-5">
-                                <div className=" w-16 h-16 bg-[#F5F6F8] px-2 py-1">
-                                    <img className=" w-full h-full" src={product.image} alt="Image Unavailable" />
-
-                                </div>
-                                <div >
-                                    <h4 className=" text-sm font-semibold leading-5 ">{product.productName}</h4>
-                                    <div className="flex items-center  gap-8 mt-1">
-                                        <p className=" text-sm leading-6">Qty: <span className="text-[#6E717D]">{product.quantity}</span></p>
-                                        {
-                                            product?.additionalData?.map((data, index) => {
-                                                const [key, value] = Object.entries(data)[0];
-                                                return <p key={index} className=" text-sm leading-6">{key}: <span className="text-[#6E717D]">{value}</span></p>
-                                            })
-                                        }
-
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div>
-                                <p className="text-[#6E717D] text-base leading-6 font-semibold ">{currentStore?.storeCurrency}{product.price}</p>
-
+                    {/* Additional Information */}
+                    {
+                        shipping_details?.address?.additionalData && <div className="mt-2">
+                            <h4 className="font-medium leading-[140%] text-sm text-[#232327]">Additional information</h4>
+                            <div className="flex items-center flex-wrap">
+                                {
+                                    shipping_details?.address?.additionalData
+                                        ?.map((data, index) => {
+                                            const [key, value] = Object.entries(data as Record<string, unknown>)[0];
+                                            return (
+                                                <span key={index} className="text-sm ml-[2px] font-normal text-[#232327] leading-[160%]">
+                                                    {key}: <span className="text-[#696969]">{String(value)}</span>
+                                                    {index !== shipping_details?.address?.additionalData.length - 1 && ', '}
+                                                </span>
+                                            );
+                                        })
+                                }
 
                             </div>
                         </div>
+                    }
+
+                </div>
+
+            </div>
+
+            {/* Shipping Details */}
+            <div className="w-full bg-white py-3 px-4 rounded-[4px] mt-2">
+                <h3 className="text-[#232327] text-base leading-[140%} font-semibold mb-3">Shipping</h3>
+
+                <div className="w-full">
+                    {/* Delivery status */}
+                    <div>
+                        <h4 className="font-medium leading-[140%] text-sm text-[#232327] mb-2">Delivery status</h4>
+                        {/* Delivery status here */}
+                        <select onChange={handleOrderStatusUpdate} defaultValue={status?.map((status: { message: string, date: string }) => status?.message)[status?.length - 1]} className="bg-[#FFEFAF] px-2 rounded-[4px] h-[30px] cursor-pointer text-sm font-normal text-[#232327]" name="" id="">
+                            <option value="Order Received" disabled>Order Received</option>
+                            <option disabled={status?.find((status: { message: string, date: string }) => status?.message === "Preparing Order")} value="Preparing Order">Preparing Order</option>
+                            <option disabled={status?.find((status: { message: string, date: string }) => status?.message === "Order Shipped")} value="Order Shipped">Order Shipped</option>
+                            <option disabled={status?.find((status: { message: string, date: string }) => status?.message === "Order Completed")} value="Order Completed">Order Completed</option>
+                        </select>
                     </div>
-                })
-            }
+
+                </div>
+
+                {/* Delivery method */}
+                <div className="w-full mt-3">
+                    <div>
+                        <h4 className="font-medium leading-[140%] text-sm text-[#232327]">Delivery method</h4>
+                        <p className="text-sm text-[#696969] leading-[140%] font-normal">Custom</p>
+                    </div>
+                </div>
+
+                {/* Expected delivery date */}
+                <div className="w-full mt-2 flex justify-between items-center">
+                    <div>
+                        <h4 className="font-medium leading-[140%] text-sm text-[#232327]">Expected delivery date</h4>
+                        <p className="text-sm text-[#696969] leading-[140%] font-normal">
+                            {formatDate(exp_deliver)}
+                        </p>
+                    </div>
+
+                    <div className="relative">
+                        <span className="text-2xl text-[#232327] block ">
+                            <MdOutlineModeEditOutline />
+                        </span>
+                        <input onChange={handleExpDeliveryUpdate} className="absolute bottom-[3px] right-[4px] w-full h-full opacity-0 cursor-pointer " type="date" />
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+
+
+
 
         </div>
 
-        {/* Divider */}
-        <div className="w-full mt-3 h-[1px] border-b px-5"></div>
-
-        {/* Subtotal */}
-        <div className="mt-1 flex justify-between items-center px-5">
-            <h5 className=" font-bold leading-6 text-base">Subtotal: </h5>
-            <p className=" font-bold leading-6 text-base">{currentStore?.storeCurrency}{(subtotal / 100).toFixed(2)}</p>
-        </div>
-
+        {/* Bottom Bar */}
         <BottomBar />
 
+        <Toaster />
+    </div>
 
 
-    </main>
+
 }
 
 export default OrderDetails

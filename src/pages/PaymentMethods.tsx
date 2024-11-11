@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { PiCaretRightBold } from "react-icons/pi";
 import { useState } from "react";
 import useStoreInfo from "../hooks/useStoreInfo";
@@ -334,7 +334,7 @@ const PaymentMethods = () => {
                                                     <div >
                                                         <label className="block text-sm text-[#232327] leading-[160%]  font-medium" htmlFor="storeName">New Stripe secret key</label>
                                                         <div className="relative">
-                                                            <input onChange={(e) => setStripeSecret(e.target.value)} className="w-full h-[45px] p-3 bg-[#F6F6F6] rounded-[4px] " type={visiblePassword ? " text" : "password"} name="stripeSecret" id="stripeSecret" placeholder="Enter new Stripe secret key" />
+                                                            <input onChange={(e) => setStripeSecret(e.target.value)} className="w-full h-[45px] input-field placeholder:font-light  p-3 bg-[#F6F6F6] rounded-[4px] " type={visiblePassword ? " text" : "password"} name="stripeSecret" id="stripeSecret" placeholder="Enter new Stripe secret key" />
                                                             <span onClick={() => setVisiblePassword(!visiblePassword)} className="absolute bottom-3 right-3  text-[#696969] cursor-pointer text-xl">{visiblePassword ? <FaRegEye /> : <FaRegEyeSlash />}</span>
                                                         </div>
                                                         <div className="w-full flex gap-2 justify-end items-center mt-3">
@@ -372,7 +372,7 @@ const PaymentMethods = () => {
                                 {/* Render stripe secret field */}
                                 <div className="relative">
                                     <label className="block text-sm text-[#232327] leading-[160%]  font-medium" htmlFor="stripeSecret">Stripe secret key</label>
-                                    <input onChange={(e) => setStripeSecret(e.target.value)} className="w-full h-[45px] p-3 bg-[#F6F6F6] rounded-[4px] " type={visiblePassword ? " text" : "password"} name="stripeSecret" id="stripeSecret" placeholder="Enter stripe secret key" />
+                                    <input onChange={(e) => setStripeSecret(e.target.value)} className="w-full h-[45px] input-field placeholder:font-light  p-3 bg-[#F6F6F6] rounded-[4px] " type={visiblePassword ? " text" : "password"} name="stripeSecret" id="stripeSecret" placeholder="Enter stripe secret key" />
                                     <span onClick={() => setVisiblePassword(!visiblePassword)} className="absolute bottom-3 right-3  text-[#696969] cursor-pointer text-xl">{visiblePassword ? <FaRegEye /> : <FaRegEyeSlash />}</span>
                                 </div>
                                 <p className="font-normal mt-[2px] leading-[140%] text-xs text-[#696969]">For retrieving your Stripe Secret, visit <Link className="font-medium text-[#232327] hover:underline" to="https://docs.stripe.com/keys" target='_blank'>Stripe API documentation.</Link></p>
@@ -424,7 +424,7 @@ const PaymentMethods = () => {
                                                     <div >
                                                         <label className="block text-sm text-[#232327] leading-[160%] font-medium" htmlFor="yocoSecret">New YOCO secret key</label>
                                                         <div className="relative">
-                                                            <input onChange={(e) => setYocoSecret(e.target.value)} value={yocoSecret} className="w-full h-[45px] p-3 bg-[#F6F6F6] rounded-[4px]" type={yocoPasswordVisible ? "text" : "password"} name="stripeSecret" id="stripeSecret" placeholder="Enter YOCO secret" required />
+                                                            <input onChange={(e) => setYocoSecret(e.target.value)} value={yocoSecret} className="w-full input-field placeholder:font-light  h-[45px] p-3 bg-[#F6F6F6] rounded-[4px]" type={yocoPasswordVisible ? "text" : "password"} name="stripeSecret" id="stripeSecret" placeholder="Enter YOCO secret" required />
                                                             <span onClick={() => setYocoPasswordVisible(!yocoPasswordVisible)} className="absolute bottom-3 right-3  text-[#696969] cursor-pointer text-xl">{yocoPasswordVisible ? <FaRegEye /> : <FaRegEyeSlash />}</span>
                                                         </div>
                                                         <div className="w-full flex gap-2 justify-end items-center mt-3">
@@ -463,7 +463,7 @@ const PaymentMethods = () => {
                                 {/* Render stripe secret field */}
                                 <div className="relative">
                                     <label className="block text-sm text-[#232327] leading-[160%]  font-medium" htmlFor="stripeSecret">YOCO secret key</label>
-                                    <input onChange={(e) => setYocoSecret(e.target.value)} className="w-full h-[45px] p-3 bg-[#F6F6F6] rounded-[4px]" type={yocoPasswordVisible ? "text" : "password"} name="stripeSecret" id="stripeSecret" placeholder="Enter stripe secret" />
+                                    <input onChange={(e) => setYocoSecret(e.target.value)} className="w-full h-[45px] input-field placeholder:font-light  p-3 bg-[#F6F6F6] rounded-[4px]" type={yocoPasswordVisible ? "text" : "password"} name="stripeSecret" id="stripeSecret" placeholder="Enter stripe secret" />
                                     <span onClick={() => setYocoPasswordVisible(!yocoPasswordVisible)} className="absolute bottom-3 right-3  text-[#696969] cursor-pointer text-xl">{yocoPasswordVisible ? <FaRegEye /> : <FaRegEyeSlash />}</span>
                                 </div>
                                 <p className=" font-normal mt-[2px] leading-[140%] text-xs text-[#696969]">For retrieving your Yoco Secret, visit the <Link className="font-bold hover:underline" to="https://developer.yoco.com/online/resources/integration-keys" target='_blank'>YOCO API documentation.</Link></p>

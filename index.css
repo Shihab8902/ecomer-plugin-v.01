@@ -27,6 +27,14 @@ body {
     color: #232327 !important;
 }
 
+.input-no-outline {
+    outline: none !important;
+}
+
+.input-no-outline:focus {
+    border: none !important;
+}
+
 
 
 /* Scrollbar styles */

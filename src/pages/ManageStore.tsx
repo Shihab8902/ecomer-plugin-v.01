@@ -107,19 +107,19 @@ const ManageStore = () => {
                             {/* Store name */}
                             <div className="w-full">
                                 <label className="block mb-1 text-base text-[#232327] font-medium" htmlFor="name">Store Name</label>
-                                <input className="w-full px-3 py-[14px] rounded-md text-[#232327]  bg-[#F6F6F6] text-base placeholder:text-[#696969]  h-12 " type="text" name="storeName" id="storeName" defaultValue={store?.storeName} placeholder="Enter store name" required />
+                                <input className="w-full input-field placeholder:font-light  px-3 py-[14px] rounded-md text-[#232327]  bg-[#F6F6F6] text-base placeholder:text-[#696969]  h-12 " type="text" name="storeName" id="storeName" defaultValue={store?.storeName} placeholder="Enter store name" required />
                             </div>
 
                             {/* Store location */}
                             <div className='mt-2 w-full'>
                                 <label className="block mb-1 text-base text-[#232327] font-medium" htmlFor="location">Business Location</label>
-                                <Select options={options} className='cursor-pointer rounded-md' defaultValue={location} value={location} onChange={(value) => setLocation(value)} />
+                                <Select options={options} className='cursor-pointer input-field placeholder:font-light  rounded-md' defaultValue={location} value={location} onChange={(value) => setLocation(value)} />
                             </div>
 
                             {/* Store currency */}
                             <div className="mt-2 w-full">
                                 <label className="block mb-1 text-base text-[#232327] font-medium" htmlFor="currency">Store Currency</label>
-                                <input className="w-full px-3 py-[14px] rounded-md text-[#232327]  bg-[#F6F6F6] text-base placeholder:text-[#696969]  h-12 " type="text" name="storeCurrency" id="storeCurrency" defaultValue={store?.storeCurrency} placeholder="Enter currency" required />
+                                <input className="w-full px-3 input-field placeholder:font-light  py-[14px] rounded-md text-[#232327]  bg-[#F6F6F6] text-base placeholder:text-[#696969]  h-12 " type="text" name="storeCurrency" id="storeCurrency" defaultValue={store?.storeCurrency} placeholder="Enter currency" required />
                             </div>
 
 
