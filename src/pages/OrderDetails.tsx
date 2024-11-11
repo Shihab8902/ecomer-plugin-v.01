@@ -23,7 +23,9 @@ const OrderDetails = () => {
     //Fetch order data
     const { data: orderData, refetch: refetchOrders, isLoading } = useGetDataPublic([reqId, "order"], `/order?id=${reqId}`)
 
-    const { _id, orderNumber, shipping_details, billing_details, status, exp_deliver } = orderData || {};
+    const { _id, orderNumber, shipping_details, billing_details, status, exp_deliver, additionalCustomerData, additionalShippingData } = orderData || {};
+
+
 
 
     //Format date
@@ -213,6 +215,29 @@ const OrderDetails = () => {
                         </div>
                     }
 
+
+                    {/* Customer dedicated additional Information */}
+                    {
+                        additionalCustomerData?.length > 0 && <div className="mt-2">
+                            <h4 className="font-medium leading-[140%] text-sm text-[#232327]">Additional information</h4>
+                            <div className="flex items-center flex-wrap">
+                                {
+                                    additionalCustomerData
+                                        ?.map((data, index) => {
+                                            const [key, value] = Object.entries(data as Record<string, unknown>)[0];
+                                            return (
+                                                <span key={index} className="text-sm ml-[2px] font-normal text-[#232327] leading-[160%]">
+                                                    {key}: <span className="text-[#696969]">{String(value)}</span>
+                                                    {index !== additionalCustomerData.length - 1 && ', '}
+                                                </span>
+                                            );
+                                        })
+                                }
+
+                            </div>
+                        </div>
+                    }
+
                 </div>
 
             </div>
@@ -262,6 +287,28 @@ const OrderDetails = () => {
 
 
                 </div>
+
+                {/* Additional Shipping Data */}
+                {
+                    additionalShippingData?.length > 0 && <div className="mt-2">
+                        <h4 className="font-medium leading-[140%] text-sm text-[#232327]">Additional information</h4>
+                        <div className="flex items-center flex-wrap">
+                            {
+                                additionalShippingData
+                                    ?.map((data, index) => {
+                                        const [key, value] = Object.entries(data as Record<string, unknown>)[0];
+                                        return (
+                                            <span key={index} className="text-sm ml-[2px] font-normal text-[#232327] leading-[160%]">
+                                                {key}: <span className="text-[#696969]">{String(value)}</span>
+                                                {index !== additionalShippingData.length - 1 && ', '}
+                                            </span>
+                                        );
+                                    })
+                            }
+
+                        </div>
+                    </div>
+                }
 
             </div>
 
