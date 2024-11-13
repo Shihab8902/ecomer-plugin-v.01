@@ -17,10 +17,9 @@ export const OrderTable = () => {
     </svg>
 
     const navigate = useNavigate();
-    const [filterValue, setFilterValue] = useState("All");
     const { currentStore } = useStoreInfo();
 
-    const { orders, ordersLoading } = useOrderInfo({ filter: filterValue, currentStore: currentStore });
+    const { orders, ordersLoading } = useOrderInfo({ currentStore: currentStore });
 
 
     return <div className="mb-[70px]">
@@ -30,7 +29,7 @@ export const OrderTable = () => {
             <div className="w-full pt-1  bg-white px-4 pb-4 ">
                 <div className="p-3 bg-[#F6F6F6] flex w-full items-center rounded-md">
                     <span>{searchIcon}</span>
-                    <input className="w-[90%] bg-transparent px-3 input-field placeholder:text-[#696969] placeholder:font-normal input-no-outline" type="search" name="search" id="search" placeholder="Search order" />
+                    <input className="w-[90%] bg-transparent px-3 input-field focus:ring-0 placeholder:text-[#696969] placeholder:font-normal input-no-outline" type="search" name="search" id="search" placeholder="Search order" />
                 </div>
             </div>
         </div>
