@@ -9,20 +9,20 @@ interface Order {
     orderedAt: string;
     status: { message: string }[];
     paymentMethod: string;
-    shipping_details: object;
+    shipping_details: {
+        name: string
+    };
     paymentStatus: string;
     products: [object];
     subtotal: number;
 }
 
-interface Store {
-    storeCurrency: string;
-}
+
 
 
 const OrderCard = ({ order }: { order: Order }) => {
 
-    const { currentStore }: { currentStore: Store } = useStoreInfo();
+    const { currentStore } = useStoreInfo();
 
     const navigate = useNavigate();
 

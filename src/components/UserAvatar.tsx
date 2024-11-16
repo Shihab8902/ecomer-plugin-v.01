@@ -21,8 +21,7 @@ const UserAvatar = () => {
     const navigate = useNavigate();
     const { currentStore, store, selectNewStore } = useStoreInfo();
 
-    const { refetchOrders } = useOrderInfo({ filter: "All", currentStore: currentStore });
-
+    const { refetchOrders } = useOrderInfo({ filter: "All", currentStore: currentStore as { storeId: string } });
 
 
 
@@ -135,7 +134,7 @@ const UserAvatar = () => {
                     <p className="text-[#696969] text-xs break-words leading-[140%]">{user?.email}</p>
                 </div>
 
-                <button onClick={handleLogOut} className="py-1 w-full text-left hover:bg-transparent mt-2 text-xs font-medium text-[#E93725] font-semibold rounded-md">
+                <button onClick={handleLogOut} className="py-1 w-full text-left hover:bg-transparent mt-2 text-xs font-medium text-[#E93725]  rounded-md">
                     Logout
                 </button>
             </div>

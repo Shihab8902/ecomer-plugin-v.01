@@ -1,5 +1,5 @@
 
-import { useContext, useMemo, useState } from 'react';
+import { FormEvent, useContext, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAxiosPublic from '../hooks/useAxiosPublic';
 import useStoreInfo from '../hooks/useStoreInfo';
@@ -20,21 +20,22 @@ const CreateStore = () => {
 
     const { refetchStore, selectNewStore } = useStoreInfo();
 
-    const { user } = useContext(UserContext)
+    const { user } = (useContext(UserContext) || {}) as { user?: { email: string } };
     const axiosPublic = useAxiosPublic();
 
 
     //Handle store creation
-    const handleFormSubmit = (e) => {
+    const handleFormSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setIsStoreCreating(true)
-        const storeName = e.target?.storeName?.value;
-        const storeCurrency = e.target.storeCurrency.value;
+        const form = e.currentTarget;
+        const storeName = (form.elements.namedItem("storeName") as HTMLInputElement).value;
+        const storeCurrency = (form.elements.namedItem("storeCurrency") as HTMLInputElement).value;
         const storeData = {
             storeName,
             location,
             storeCurrency,
-            admin: user.email
+            admin: user?.email
         }
         if (!location) {
             setIsStoreCreating(false);
@@ -52,7 +53,7 @@ const CreateStore = () => {
                     variant: "success",
                 })
                 setIsStoreCreating(false);
-                navigate("/remix");
+                navigate("/");
 
             }).catch(error => {
                 framer.notify(error.message, {

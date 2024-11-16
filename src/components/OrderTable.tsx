@@ -1,7 +1,5 @@
 import useOrderInfo from "../hooks/useOrderInfo";
-import { useNavigate } from "react-router-dom";
 import LoaderSpinner from "./LoaderSpinner";
-import { useState } from "react";
 import useStoreInfo from "../hooks/useStoreInfo";
 import BottomBar from "./BottomBar";
 import TopBar from "./TopBar";
@@ -16,10 +14,11 @@ export const OrderTable = () => {
         <path d="M15.7496 16.2496L11.8519 12.3519M11.8519 12.3519C12.9068 11.2969 13.4994 9.86613 13.4994 8.37423C13.4994 6.88234 12.9068 5.45154 11.8519 4.39661C10.7969 3.34168 9.36613 2.74902 7.87423 2.74902C6.38234 2.74902 4.95154 3.34168 3.89661 4.39661C2.84168 5.45154 2.24902 6.88234 2.24902 8.37423C2.24902 9.86613 2.84168 11.2969 3.89661 12.3519C4.95154 13.4068 6.38234 13.9994 7.87423 13.9994C9.36613 13.9994 10.7969 13.4068 11.8519 12.3519Z" stroke="#696969" stroke-linecap="round" stroke-linejoin="round" />
     </svg>
 
-    const navigate = useNavigate();
+
     const { currentStore } = useStoreInfo();
 
-    const { orders, ordersLoading } = useOrderInfo({ currentStore: currentStore });
+    const { orders, ordersLoading } = useOrderInfo({ currentStore: currentStore as { storeId: string } });
+
 
 
     return <div className="mb-[70px]">
@@ -45,7 +44,19 @@ export const OrderTable = () => {
                                 <div>
                                     <h3 className="text-[#232327] font-semibold text-base leading-[140%]">Orders</h3>
                                     {
-                                        orders?.map(order => <OrderCard order={order} key={order?._id} />)
+                                        orders?.map((order: {
+                                            _id: string;
+                                            orderNumber: string;
+                                            orderedAt: string;
+                                            status: { message: string }[];
+                                            paymentMethod: string;
+                                            shipping_details: {
+                                                name: string
+                                            };
+                                            paymentStatus: string;
+                                            products: [object];
+                                            subtotal: number;
+                                        }) => <OrderCard order={order} key={order?._id} />)
                                     }
                                 </div>
                             </div>
