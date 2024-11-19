@@ -8,7 +8,7 @@ import { framer } from 'framer-plugin';
 import Select from 'react-select'
 import countryList from 'react-select-country-list'
 import LoaderSpinner from '../components/LoaderSpinner';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 
 
 const InitialCreateStore = () => {
@@ -125,7 +125,7 @@ const InitialCreateStore = () => {
             </form>
         </div>
 
-        <Toaster />
+
     </div>
 }
 

@@ -1,4 +1,5 @@
 import { framer } from "framer-plugin"
+import { Toaster } from "react-hot-toast"
 import { Outlet } from "react-router-dom"
 
 framer.showUI({
@@ -11,7 +12,11 @@ framer.showUI({
 })
 
 const Root = () => {
-    return <Outlet />
+    return <>
+
+        <Outlet />
+        <Toaster />
+    </>
 }
 
 export default Root

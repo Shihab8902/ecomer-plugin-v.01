@@ -1,6 +1,6 @@
 import { useContext, useState, useRef, useEffect } from "react";
 import { UserContext } from "../context/AuthProvider";
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import { useNavigate } from "react-router-dom";
 import useStoreInfo from "../hooks/useStoreInfo";
 import Avatar from 'react-avatar';
@@ -139,7 +139,7 @@ const UserAvatar = () => {
                 </button>
             </div>
 
-            <Toaster />
+
         </div>
     );
 };

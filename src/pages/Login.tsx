@@ -8,27 +8,29 @@ import { framer } from "framer-plugin";
 const Login = () => {
 
     const navigate = useNavigate();
-    const { handleLoginWithGoogle } = useContext(UserContext);
+    const { handleLoginWithGoogle } = useContext(UserContext) || {};
 
 
 
     const handleLogin = () => {
-        handleLoginWithGoogle()
-            .then((result: object | null) => {
-                if (result) {
-                    framer.notify("Logged in Successfully!", {
-                        durationMs: 3000,
-                        variant: "success",
-                    })
-                    navigate("/dashboard");
-                }
-            })
-            .catch((error: object | null) => {
-                framer.notify(error.message, {
-                    durationMs: 3000,
-                    variant: "error",
+        if (handleLoginWithGoogle) {
+            handleLoginWithGoogle()
+                .then((result: object | null) => {
+                    if (result) {
+                        framer.notify("Logged in Successfully!", {
+                            durationMs: 3000,
+                            variant: "success",
+                        })
+                        navigate("/dashboard");
+                    }
                 })
-            })
+                .catch((error: object | null) => {
+                    framer.notify((error as { message: string }).message || "An unknown error occurred.", {
+                        durationMs: 3000,
+                        variant: "error",
+                    });
+                })
+        }
     }
 
 

@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom"
 import moment from "moment";
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 import TopBar from "../components/TopBar";
 import BottomBar from "../components/BottomBar";
 import { useContext, useEffect, useState } from "react";
@@ -597,7 +597,7 @@ const OrderDetails = () => {
         {/* Bottom Bar */}
         <BottomBar />
 
-        <Toaster />
+
     </div>
 
 

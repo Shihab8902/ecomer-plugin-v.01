@@ -3,6 +3,7 @@ import useStoreInfo from "../hooks/useStoreInfo";
 import useTotalOrders from "../hooks/useTotalOrders";
 import { Navigate } from "react-router-dom";
 import InitialCreateStore from "./InitialStoreCreate";
+import Tutorial from "./Tutorial";
 
 
 const Dashboard = () => {
@@ -30,7 +31,7 @@ const Dashboard = () => {
     }
 
     // Redirect to home if no specific conditions are met
-    return <Navigate to="/" />
+    return <Tutorial />
 };
 
 export default Dashboard;

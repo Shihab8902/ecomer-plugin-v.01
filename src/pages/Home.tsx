@@ -2,18 +2,26 @@ import { useContext } from "react";
 import Login from "./Login";
 import { UserContext } from "../context/AuthProvider";
 import Tutorial from "./Tutorial";
+import { useLocation } from "react-router-dom";
+import Dashboard from "./Dashboard";
 
 
 const Home = () => {
 
-    const { user } = useContext(UserContext);
+    const { user } = useContext(UserContext) || {};
+
+    const location = useLocation();
 
 
-    return <>
-        {
-            user ? <Tutorial /> : <Login />
-        }
-    </>
+    if (location?.state?.renderDocs) {
+        return <Tutorial />;
+    }
+
+    return (
+        <>
+            {user ? <Dashboard /> : <Login />}
+        </>
+    );
 }
 
 export default Home

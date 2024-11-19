@@ -4,6 +4,7 @@ import useStoreInfo from "../hooks/useStoreInfo";
 import BottomBar from "./BottomBar";
 import TopBar from "./TopBar";
 import OrderCard from "./OrderCard";
+import { useState } from "react";
 
 
 
@@ -17,7 +18,12 @@ export const OrderTable = () => {
 
     const { currentStore } = useStoreInfo();
 
-    const { orders, ordersLoading } = useOrderInfo({ currentStore: currentStore as { storeId: string } });
+    const [searchValue, setSearchValue] = useState('');
+
+    const { orders, ordersLoading } = useOrderInfo({
+        currentStore: currentStore as { storeId: string },
+        search: searchValue
+    });
 
 
 
@@ -28,7 +34,7 @@ export const OrderTable = () => {
             <div className="w-full pt-1  bg-white px-4 pb-4 ">
                 <div className="p-3 bg-[#F6F6F6] flex w-full items-center rounded-md">
                     <span>{searchIcon}</span>
-                    <input className="w-[90%] bg-transparent px-3 input-field focus:ring-0 placeholder:text-[#696969] placeholder:font-normal input-no-outline" type="search" name="search" id="search" placeholder="Search order" />
+                    <input onChange={e => setSearchValue(e.target.value)} className="w-[90%] bg-transparent px-3 input-field focus:ring-0 placeholder:text-[#696969] placeholder:font-normal input-no-outline" type="search" name="search" id="search" placeholder="Search order" />
                 </div>
             </div>
         </div>
@@ -63,10 +69,6 @@ export const OrderTable = () => {
                         </div>
             }
         </div>
-
-
-
-
 
 
 

@@ -11,7 +11,7 @@ import countryList from 'react-select-country-list'
 import BottomBar from "../components/BottomBar";
 import TopBar from "../components/TopBar";
 import { MdContentCopy } from "react-icons/md";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 
 
 
@@ -32,6 +32,11 @@ const ManageStore = () => {
     useEffect(() => {
         setLocation(store?.location);
     }, [store])
+
+    // Dismiss all toasts on navigation
+    useEffect(() => {
+        toast.dismiss();
+    }, [location]);
 
     const axiosPublic = useAxiosPublic();
     const navigate = useNavigate();
@@ -158,13 +163,13 @@ const ManageStore = () => {
                             {/* Store location */}
                             <div className='mt-2 w-full'>
                                 <label className="block mb-1 text-base text-[#232327] font-medium" htmlFor="location">Business Location</label>
-                                <Select options={options} className='cursor-pointer input-field placeholder:font-light  rounded-md' defaultValue={location} value={location} onChange={(value) => setLocation(value)} />
+                                <Select options={options} className='cursor-pointer focus:ring-0 input-field placeholder:font-light  rounded-md' defaultValue={location} value={location} onChange={(value) => setLocation(value)} />
                             </div>
 
                             {/* Store currency */}
                             <div className="mt-2 w-full">
                                 <label className="block mb-1 text-base text-[#232327] font-medium" htmlFor="currency">Store Currency</label>
-                                <input className="w-full px-3 input-field placeholder:font-light  py-[14px] rounded-md text-[#232327]  bg-[#F6F6F6] text-base placeholder:text-[#696969]  h-12 " type="text" name="storeCurrency" id="storeCurrency" defaultValue={store?.storeCurrency} placeholder="Enter currency" required />
+                                <input className="w-full px-3 input-field placeholder:font-light focus:ring-0  py-[14px] rounded-md text-[#232327]  bg-[#F6F6F6] text-base placeholder:text-[#696969]  h-12 " type="text" name="storeCurrency" id="storeCurrency" defaultValue={store?.storeCurrency} placeholder="Enter currency" required />
                             </div>
 
 
@@ -190,7 +195,7 @@ const ManageStore = () => {
 
 
 
-        <Toaster />
+
 
         {/* Bottom bar */}
         <BottomBar />

@@ -5,7 +5,7 @@ import LoaderSpinner from "../components/LoaderSpinner";
 import useAxiosPublic from "../hooks/useAxiosPublic";
 import useOrderInfo from "../hooks/useOrderInfo";
 import moment from "moment";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { IoIosArrowRoundBack } from "react-icons/io";
 import { framer } from "framer-plugin";
 import useStoreInfo from "../hooks/useStoreInfo";
@@ -107,7 +107,6 @@ const ManageOrder = () => {
         </form>
 
 
-        <Toaster />
 
         <BottomBar />
 
