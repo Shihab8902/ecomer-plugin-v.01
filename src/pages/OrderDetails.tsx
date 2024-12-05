@@ -372,7 +372,7 @@ const OrderDetails = () => {
                 <h3 className="text-[#232327] text-base px-4 leading-[140%} font-semibold mb-3">Notes</h3>
                 {/* Note Field*/}
                 <div className="w-full flex justify-between">
-                    <textarea defaultValue={note} readOnly={!isNoteEditable} onChange={handleNoteUpdate} className="w-[85%] bg-transparent text-sm text-[#696969] leading-[140%] px-4 focus:ring-0 min-h-5 resize-none" name="note" id="note" placeholder="Notes goes here"></textarea>
+                    <textarea defaultValue={note} readOnly={!isNoteEditable} onChange={handleNoteUpdate} className="w-[85%] caret-black bg-transparent text-sm text-[#696969] leading-[140%] px-4 focus:ring-0 min-h-5 resize-none" name="note" id="note" placeholder="Notes goes here"></textarea>
                     <span onClick={() => {
                         setIsNoteEditable(!isNoteEditable)
                         if (isNoteEditable) {

@@ -7,6 +7,7 @@ import { useState } from "react";
 import { RxCaretDown } from "react-icons/rx";
 import { Link } from "react-router-dom";
 import useAxiosPublic from "../hooks/useAxiosPublic";
+import {  FaRegFileAlt } from "react-icons/fa";
 
 const Tutorial = () => {
 
@@ -224,6 +225,8 @@ const Tutorial = () => {
                 </div>
 
             </div>
+
+            <p className="text-center font-medium text-[#696969] mt-1 hover:underline  text-base flex items-center gap-1 justify-center"> <FaRegFileAlt className="text-xl " /> <Link to="https://ecomer.framax.co/docs" target="_blank">View full documentation</Link></p>
 
         </div>
 
