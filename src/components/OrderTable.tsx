@@ -34,7 +34,7 @@ export const OrderTable = () => {
             <div className="w-full pt-1  bg-white px-4 pb-4 ">
                 <div className="p-3 bg-[#F6F6F6] flex w-full items-center rounded-md">
                     <span>{searchIcon}</span>
-                    <input onChange={e => setSearchValue(e.target.value)} className="w-[90%] bg-transparent px-3 input-field focus:ring-0 placeholder:text-[#696969] placeholder:font-normal input-no-outline" type="search" name="search" id="search" placeholder="Search order" />
+                    <input onChange={e => setSearchValue(e.target.value)} className="w-[90%] bg-transparent px-3 input-field caret-black focus:ring-0 placeholder:text-[#696969] placeholder:font-normal input-no-outline" type="search" name="search" id="search" placeholder="Search order" />
                 </div>
             </div>
         </div>

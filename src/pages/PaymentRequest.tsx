@@ -75,22 +75,22 @@ const PaymentRequest = () => {
             <form onSubmit={handleFormSubmit} className="bg-white py-3 px-4 rounded-lg">
                 <div>
                     <label className="text-[#232327] mb-[2px] text-base font-medium leading-[160%]" htmlFor="providerName">Payment provider name <span className="text-[#E93725]">*</span></label>
-                    <input className="w-full rounded-[4px] placeholder:font-light input-field h-12 px-12 bg-[#F6F6F6]" type="text" name="providerName" placeholder="Enter provider name" required />
+                    <input className="w-full rounded-[4px] placeholder:font-light focus:ring-0 caret-black input-field h-12 px-12 bg-[#F6F6F6]" type="text" name="providerName" placeholder="Enter provider name" required />
                 </div>
 
                 <div className="mt-2">
                     <label className="text-[#232327] mb-[2px] text-base font-medium leading-[160%]" htmlFor="providerWebsite">Provider website link <span className="text-[#E93725]">*</span></label>
-                    <input className="w-full rounded-[4px] placeholder:font-light input-field h-12 px-12 bg-[#F6F6F6]" type="text" name="providerWebsite" placeholder="Enter website link" required />
+                    <input className="w-full rounded-[4px] focus:ring-0 caret-black placeholder:font-light input-field h-12 px-12 bg-[#F6F6F6]" type="text" name="providerWebsite" placeholder="Enter website link" required />
                 </div>
 
                 <div className="mt-2">
                     <label className="text-[#232327] mb-[2px] text-base font-medium leading-[160%]" htmlFor="providerWebsite">Service provider API link <span className="text-[#23232766]">(optional)</span></label>
-                    <input className="w-full rounded-[4px] placeholder:font-light input-field h-12 px-12 bg-[#F6F6F6]" type="text" name="providerAPI" placeholder="Enter API link" />
+                    <input className="w-full rounded-[4px] focus:ring-0 caret-black placeholder:font-light input-field h-12 px-12 bg-[#F6F6F6]" type="text" name="providerAPI" placeholder="Enter API link" />
                 </div>
 
                 <div className="mt-1">
                     <label className="text-[#232327] mb-[2px] text-sm font-medium leading-[160%]" htmlFor="providerWebsite">Describe why you need the payment method <span className="text-[#E93725]">*</span></label>
-                    <textarea className="w-full p-3 placeholder:font-light input-field rounded-[4px] bg-[#F6F6F6] h-28" name="description" placeholder="Write Description..." required />
+                    <textarea className="w-full p-3 placeholder:font-light caret-black focus:ring-0 input-field rounded-[4px] bg-[#F6F6F6] h-28" name="description" placeholder="Write Description..." required />
                 </div>
 
                 <button type="submit" disabled={isMessageSending} className="w-full mt-4 disabled:bg-[#232327] bg-[#232327] rounded-[4px] h-fit py-3 leading-[150%] hover:bg-black font-medium text-base text-white flex items-center justify-center gap-2 ">

@@ -35,7 +35,9 @@ body {
     border: none !important;
 }
 
-
+.caret-black{
+    caret-color: black !important;
+}
 
 
 /* Scrollbar styles */

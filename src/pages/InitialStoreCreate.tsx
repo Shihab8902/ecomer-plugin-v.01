@@ -96,7 +96,7 @@ const InitialCreateStore = () => {
                 <h3 className='text-center text-xl font-semibold text-[#232327] mb-5'>Create your store</h3>
                 <div>
                     <label className="block text-base text-[#232327] mb-1 font-medium" htmlFor="name">Store Name</label>
-                    <input className="w-full input-field placeholder:font-light  px-3 py-[14px] rounded-md text-[#232327]  bg-[#F6F6F6] text-sm placeholder:text-[#696969]  h-12 " type="text" name="storeName" id="storeName" placeholder="Enter store name" required />
+                    <input className="w-full focus:ring-0 caret-black input-field placeholder:font-light  px-3 py-[14px] rounded-md text-[#232327]  bg-[#F6F6F6] text-sm placeholder:text-[#696969]  h-12 " type="text" name="storeName" id="storeName" placeholder="Enter store name" required />
                 </div>
 
                 <div className='mt-2'>
@@ -106,7 +106,7 @@ const InitialCreateStore = () => {
 
                 <div className='mt-2'>
                     <label className="block text-base text-[#232327] mb-1 font-medium" htmlFor="name">Currency</label>
-                    <input className="w-full input-field placeholder:font-light  px-3 py-[14px] rounded-md  bg-[#F6F6F6] text-sm placeholder:text-[#696969]  h-12 " type="text" name="storeCurrency" id="storeCurrency" placeholder="Enter currency" defaultValue="$" required />
+                    <input className="w-full focus:ring-0 caret-black input-field placeholder:font-light  px-3 py-[14px] rounded-md  bg-[#F6F6F6] text-sm placeholder:text-[#696969]  h-12 " type="text" name="storeCurrency" id="storeCurrency" placeholder="Enter currency" defaultValue="$" required />
                 </div>
 
                 <div className="mt-3 flex gap-2 w-full justify-end">
