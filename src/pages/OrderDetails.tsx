@@ -510,7 +510,7 @@ const OrderDetails = () => {
                         <h4 className="text-[#232327] font-semibold text-base leading-[140%]">Total</h4>
                         <span className="text-[#232327] font-semibold text-base leading-[140%]">
                             {currentStore?.storeCurrency}
-                            {(calculatedSubtotal + additionalCharges?.shipping + additionalCharges?.tax) - additionalCharges?.discount}
+                            {((calculatedSubtotal + additionalCharges?.shipping + additionalCharges?.tax) - additionalCharges?.discount)?.toFixed(2)}
                         </span>
                     </div>
 
